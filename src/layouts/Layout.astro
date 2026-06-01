@@ -1,22 +1,77 @@
+---
+import '@app/main.css'
+import { Font } from 'astro:assets'
+import { ClientRouter } from 'astro:transitions'
+import { Header, Footer, Player } from '@app/components'
+import { CONST } from '@app/constants'
+
+interface Props {
+  title?: string
+  frontmatter?: {
+    title: string
+  }
+}
+
+const { title, frontmatter } = Astro.props
+const titleSegments = [title ?? frontmatter?.title, CONST.appName].filter(
+  Boolean,
+)
+const isHome = Astro.url.pathname === '/'
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={CONST.appDesc} />
+    <title>{titleSegments.join(' - ')}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <Font cssVariable="--font-montagu-slab" preload />
+    <Font cssVariable="--font-handjet" preload />
+    <main id="application">
+      <Header />
+      <slot />
+    </main>
+    {
+      !isHome && (
+        <Player mode="topbar" client:load transition:name="player" />
+      )
+    }
+    <Footer />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html {
+    background: url(/public/images/background-noise.png) repeat;
+  }
+  body {
+    background-image: url(/public/images/top-cutout.svg);
+    background-position: top left;
+    background-repeat: no-repeat;
+  }
+  main#application {
+    max-width: var(--w-page);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+  }
+  body::after {
+    background: url(/public/images/top-sun.svg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 160px;
+    width: 160px;
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 48%;
+  }
 </style>

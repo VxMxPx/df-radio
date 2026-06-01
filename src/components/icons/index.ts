@@ -1,0 +1,6 @@
+export { default as Play } from './play.svg.svelte'
+export { default as Pause } from './pause.svg.svelte'
+export { default as Stop } from './stop.svg.svelte'
+export { default as Disc } from './disc.svg.svelte'
+export { default as Gear } from './gear.svg.svelte'
+export { default as Loading } from './loading.svg.svelte'

@@ -1,0 +1,33 @@
+---
+const date = new Date().toISOString()
+const version =
+  date.substring(2, 4) +
+  date.substring(5, 7) +
+  date.substring(8, 10) +
+  date.substring(11, 13)
+---
+
+<div class="footer">
+  <a href="/version">
+    <small>by ↣ · 2025 · v{version}</small>
+  </a>
+</div>
+
+<style>
+  .footer {
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    z-index: 10;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer a {
+    text-decoration: none;
+  }
+</style>

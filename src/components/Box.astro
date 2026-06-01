@@ -1,0 +1,10 @@
+<div class="ui Box">
+  <slot />
+</div>
+
+<style>
+  @reference 'tailwindcss';
+  .Box {
+    @apply p-4 bg-[rgb(0, 0, 0, 0.15)] rounded-lg flex flex-col gap-4;
+  }
+</style>

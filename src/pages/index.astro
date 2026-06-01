@@ -1,11 +1,39 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { Box, Stars, Lines, Player, Divider } from '@app/components'
+import Layout from '@app/layouts/Layout.astro'
 ---
 
 <Layout>
-	<Welcome />
+  <div class="contents">
+    <Box>
+      Waves of sound, thought, and symbol. Streaming from an alternate present.
+      Welcome to the broadcast beyond the ordinary.
+      <Divider />
+      <Player client:load transition:name="player" />
+    </Box>
+  </div>
 </Layout>
+<Stars />
+<Lines />
+
+<style>
+  @reference 'tailwindcss';
+
+  .contents {
+    @apply flex justify-center;
+  }
+  :global(.Box) {
+    @apply z-10 w-130 text-center backdrop-blur-sm;
+  }
+  :global(body > main) {
+    @apply relative z-2;
+  }
+  :global(body)::before {
+    @apply absolute bottom-0 left-0 w-full h-full z-1;
+    content: '';
+    background-image: url(/public/images/main-illustration.svg);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 100%;
+  }
+</style>

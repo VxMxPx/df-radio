@@ -1,0 +1,62 @@
+---
+import { Divider } from '@app/components'
+import Layout from '@app/layouts/Layout.astro'
+---
+
+<Layout title="About">
+  <div class="contents">
+    <h2>About the Project</h2>
+    <Divider />
+    <div class="columns">
+      <p>
+        This signal is not mapped. It drifts, bends, and hides itself in the
+        folds of static. Like a lighthouse glimpsed through fog on an unfamiliar
+        coast, it does not explain — it only shines. You found it, and that is
+        enough. Stay, if you wish. The waves are waiting.
+      </p>
+      <p>
+        Here, the music is unclaimed, unbound — voices and instruments carried
+        from unknown hands, free of commerce, free of interruption. Calm
+        currents, flowing without anchor, designed not to sell or to distract,
+        but to steady and to open.
+      </p>
+      <p>
+        Sometimes other voices will break through: fragments of history, echoes
+        of philosophy, murmurs of psychology, whispers of spirit. They arrive as
+        if from another channel, stitched into this one, not to instruct but to
+        alter the air around you. Strange companions from parallel rooms of
+        thought.
+      </p>
+      <p>
+        This broadcast is not fixed. It grows, mutates, folds in hidden
+        patterns. It is eccentric, calm, and deliberate, yet always unstable —
+        always becoming. A place between places. A refuge in static. A beacon on
+        a shore you cannot see.
+      </p>
+    </div>
+    <Divider wavey />
+    <div class="team section">
+      <h3>Meet the Team</h3>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .contents {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .columns {
+    columns: 2;
+    column-gap: 20px;
+    /*display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    gap: 20px;*/
+  }
+  .columns > p:not(:last-child) {
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+</style>

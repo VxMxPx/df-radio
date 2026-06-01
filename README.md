@@ -1,46 +1,36 @@
-# Astro Starter Kit: Basics
+# Etheric Waves
 
-```sh
-pnpm create astro@latest -- --template basics
+An Astro and Svelte radio site for a strange little broadcast beyond the ordinary.
+
+## Commands
+
+Run commands from the project root:
+
+| Command        | Action                       |
+| :------------- | :--------------------------- |
+| `pnpm install` | Install dependencies         |
+| `pnpm dev`     | Start the local dev server   |
+| `pnpm build`   | Build the production site    |
+| `pnpm preview` | Preview the production build |
+
+## Commit Notation
+
+Use a tiny, plain-language prefix:
+
+```txt
+add:
+fix:
+change:
+remove:
+deps:
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Examples:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```txt
+add: player transition
+fix: player state reset
+change: player layout
+remove: unused topbar component
+deps: upgrade astro and svelte
 ```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
