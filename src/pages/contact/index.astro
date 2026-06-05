@@ -1,0 +1,32 @@
+---
+import { Divider } from '@app/components'
+import Layout from '@app/layouts/Layout.astro'
+import ContactForm from './_contact-form.svelte'
+---
+
+<Layout title="Contact">
+  <h2>Contact</h2>
+  <Divider />
+  <div class="flex gap-10">
+    <div class="basis-0 grow min-w-0">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, officia
+      eveniet! Deserunt, porro. Itaque rerum illo dolorum quas dignissimos!
+      Labore adipisci iusto illum excepturi quo nulla quod consequuntur
+      doloremque corporis.
+    </div>
+    <div class="basis-0 grow min-w-0">
+      <ContactForm client:load />
+    </div>
+  </div>
+
+  <!-- DONATE -->
+  <div class="team section">
+    <h3>Donate</h3>
+    <div class="columns">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+      consequuntur harum atque quibusdam, ullam quam aliquam. Temporibus id
+      dolorum dolore necessitatibus incidunt ipsam perferendis provident enim.
+      Pariatur, explicabo. Error, neque?
+    </div>
+  </div>
+</Layout>
