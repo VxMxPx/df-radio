@@ -1,22 +1,26 @@
 <script lang="ts">
-  import { Icon } from '.'
   import * as Icons from './icons'
-
-  type Names = keyof typeof Icons
+  import type { IconName } from './icons/types'
 
   type Props = {
-    name: Names
+    name: IconName
     size?: number
     color?: string
+    class?: string
   }
 
-  const { name, size = 16, color = '#000000' }: Props = $props()
+  const {
+    name,
+    size = 16,
+    color = '#000000',
+    class: classes = '',
+  }: Props = $props()
 
   let Component = $derived(Icons[name])
 </script>
 
 <span
-  class="ui Icon"
+  class={`ui Icon ${classes}`}
   style:color
   style:width={size + 'px'}
   style:height={size + 'px'}>

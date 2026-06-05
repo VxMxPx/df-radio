@@ -5,19 +5,19 @@
   fill="none"
   xmlns="http://www.w3.org/2000/svg">
   <path
-    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+    d="M12 12C15.866 12 19 8.86599 19 5H5C5 8.86599 8.13401 12 12 12ZM12 12C15.866 12 19 15.134 19 19H5C5 15.134 8.13401 12 12 12Z"
     stroke="currentColor"
     stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="round" />
   <path
-    d="M12 19C8.13401 19 5 15.866 5 12M19 12C19 8.13401 15.866 5 12 5"
+    d="M5 2H12H19"
     stroke="currentColor"
     stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="round" />
   <path
-    d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
+    d="M5 22H12H19"
     stroke="currentColor"
     stroke-width="1.5"
     stroke-linecap="round"
