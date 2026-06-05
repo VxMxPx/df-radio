@@ -23,6 +23,8 @@
 }
 html {
   background-color: var(--color-bg);
+  overflow-y: auto;
+  scrollbar-gutter: auto;
 }
 html,
 body {
@@ -37,6 +39,24 @@ body {
 }
 a {
   color: var(--color-fg);
+  text-decoration: underline;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 40px;
+  gap: 20px;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--float-distance, -10px), 0);
+  }
 }
 
 @layer {
@@ -66,13 +86,41 @@ a {
   small {
     font-size: 14px;
   }
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
+  code {
+    background: transparent;
+  }
+  pre.astro-code {
+    background: rgb(0 0 0 /0.2) !important;
+    padding: 10px !important;
+    color: inherit !important;
+    font-family: inherit;
+  }
+  code,
+  pre.astro-code code {
+    color: inherit !important;
+    font-family: inherit;
+  }
+  pre.astro-code {
+    white-space: pre-wrap;
+  }
+  hr {
+    width: 100%;
+    height: 1px;
+    opacity: 0.4;
+    background-color: #ecbd47;
+    border: 0;
+  }
 
-::view-transition-old(player),
-::view-transition-new(player) {
-  animation-duration: 500ms;
-  animation-timing-function: ease-out;
-}
+  *::placeholder {
+    font-size: 16px;
+  }
+
+  ::view-transition-old(player),
+  ::view-transition-new(player) {
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+  }
 }
