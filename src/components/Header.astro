@@ -1,6 +1,6 @@
 ---
-import ApplicationLogotype from '@app/assets/etheric-waves-logotype.svg'
-import { CONST } from '@app/constants'
+import ApplicationLogotype from '@app/assets/logotype-color.svg'
+import { APP_NAME } from '@app/constants'
 
 const currentPath = Astro.url.pathname
 const _PATHS = [
@@ -9,13 +9,17 @@ const _PATHS = [
   { url: '/program', title: 'Program' },
   { url: '/contact', title: 'Contact' },
 ]
+
+const appName = APP_NAME.toLocaleLowerCase().split('.')
 ---
 
 <header>
   <a href="/">
     <h1>
       <ApplicationLogotype />
-      {CONST.appName}
+      <span>
+        <span>{appName[0]}</span><span class="opacity-50">.{appName[1]}</span>
+      </span>
     </h1>
   </a>
   <nav>
