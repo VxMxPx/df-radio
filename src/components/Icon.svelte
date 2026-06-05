@@ -12,7 +12,7 @@
   const {
     name,
     size = 16,
-    color = '#000000',
+    color = 'currentColor',
     class: classes = '',
   }: Props = $props()
 

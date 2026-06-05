@@ -4,17 +4,19 @@
 
   type ButtonProps = HTMLButtonAttributes & {
     children?: Snippet
+    variant?: 'default' | 'accent'
   }
 
   const {
     children,
     class: classes = '',
+    variant = 'default',
     type = 'button',
     ...props
   }: ButtonProps = $props()
 </script>
 
-<button class={`ui Button ${classes}`} {type} {...props}>
+<button class={`ui Button variant-${variant} ${classes}`} {type} {...props}>
   {@render children?.()}
 </button>
 
@@ -25,35 +27,40 @@
     align-items: center;
     justify-content: center;
     padding: 4px 8px;
-    background-color: rgb(0 0 0 /0.5);
-    box-shadow: inset 1px 1px rgb(255 255 255 / 0.15);
+    background-color: var(--color-bg-faded);
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 / 0.15),
+      0 0 0 0 rgb(0 0 0 /0);
     position: relative;
     z-index: 1;
+    transition: all 0.5s ease;
+  }
+  .ui.Button.variant-accent {
+    background-color: var(--color-ttl);
+    color: var(--color-bg);
+  }
+  .ui.Button.variant-accent:hover {
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 /0.15),
+      0 0 14px 0 var(--color-ttl);
   }
 
   .ui.Button:focus-within {
-    outline: 1px solid rgba(236, 189, 71, 0.5);
+    outline: 1px solid color-mix(in srgb, var(--color-ttl) 50%, transparent);
     outline-offset: 2px;
   }
 
+  .ui.Button:active:hover,
   .ui.Button:active {
-    box-shadow: inset -1px -1px rgb(255 255 255 / 0.15);
+    box-shadow:
+      inset -1px -1px rgb(255 255 255 / 0.15),
+      0 0 14px 0 rgb(0 0 0 /0.5);
+    transition: box-shadow 0.1s ease;
   }
 
-  .ui.Button::after {
-    content: '';
-    background-color: rgb(0 0 0 / 0.4);
-    position: absolute;
-    inset: 0;
-    border-radius: 4px;
-    opacity: 0;
-    transition: all 0.5s ease;
-    filter: blur(2px);
-  }
-
-  .ui.Button:hover::after {
-    opacity: 0.6;
-    inset: -5px;
-    filter: blur(10px);
+  .ui.Button:hover {
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 /0.15),
+      0 0 14px 0 rgb(0 0 0 /0.5);
   }
 </style>

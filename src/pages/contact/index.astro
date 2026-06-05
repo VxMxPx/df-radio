@@ -1,18 +1,45 @@
 ---
-import { Divider } from '@app/components'
+import { Divider, Icon, type IconName } from '@app/components'
 import Layout from '@app/layouts/Layout.astro'
 import ContactForm from './_contact-form.svelte'
+
+const socials: { name: string; icon: IconName; handle: string }[] = [
+  { name: 'Telegram', icon: 'SocialTelegram', handle: '@darkforest' },
+  { name: 'X', icon: 'SocialX', handle: '@darkforest' },
+  { name: 'YouTube', icon: 'SocialYoutube', handle: '@darkforest' },
+  { name: 'Instagram', icon: 'SocialInstagram', handle: '@darkforest' },
+]
 ---
 
-<Layout title="Contact">
+<Layout title="Contact" elements={{ stars: true, lines: true }}>
   <h2>Contact</h2>
   <Divider />
-  <div class="flex gap-10">
-    <div class="basis-0 grow min-w-0">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, officia
-      eveniet! Deserunt, porro. Itaque rerum illo dolorum quas dignissimos!
-      Labore adipisci iusto illum excepturi quo nulla quod consequuntur
-      doloremque corporis.
+  <div class="columns">
+    <div class="basis-0 grow min-w-0 flex flex-col gap-4">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
+        officia eveniet! Deserunt, porro. Itaque rerum illo dolorum quas
+        dignissimos! Labore adipisci iusto illum excepturi quo nulla quod
+        consequuntur doloremque corporis.
+      </p>
+      <div class="socials flex flex-col gap-2">
+        <strong>Find Us Elsewhere</strong>
+        <div class="grid grid-cols-3 gap-2">
+          {
+            socials.map(item => {
+              return (
+                <div class="cursor-pointer p-2! rounded-sm grow flex gap-2 items-center hover:bg-black/20">
+                  <Icon name={item.icon} color="#ffffff" size={24} />
+                  <span class="flex flex-col">
+                    <span class="leading-[1em]"> {item.name} </span>
+                    <small class="opacity-50">{item.handle}</small>
+                  </span>
+                </div>
+              )
+            })
+          }
+        </div>
+      </div>
     </div>
     <div class="basis-0 grow min-w-0">
       <ContactForm client:load />
@@ -23,10 +50,13 @@ import ContactForm from './_contact-form.svelte'
   <div class="team section">
     <h3>Donate</h3>
     <div class="columns">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-      consequuntur harum atque quibusdam, ullam quam aliquam. Temporibus id
-      dolorum dolore necessitatibus incidunt ipsam perferendis provident enim.
-      Pariatur, explicabo. Error, neque?
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+        consequuntur harum atque quibusdam, ullam quam aliquam. Temporibus id
+        dolorum dolore necessitatibus incidunt ipsam perferendis provident enim.
+        Pariatur, explicabo. Error, neque?
+      </div>
+      <div></div>
     </div>
   </div>
 </Layout>

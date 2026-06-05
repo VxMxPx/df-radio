@@ -2,17 +2,21 @@
 import '@app/main.css'
 import { Font } from 'astro:assets'
 import { ClientRouter } from 'astro:transitions'
-import { Header, Footer, Player } from '@app/components'
+import { Header, Footer, Player, Stars, Lines } from '@app/components'
 import { APP_DESC, APP_NAME } from '@app/constants'
 
 interface Props {
   title?: string
+  elements?: {
+    stars?: boolean
+    lines?: boolean
+  }
   frontmatter?: {
     title: string
   }
 }
 
-const { title, frontmatter } = Astro.props
+const { title, elements, frontmatter } = Astro.props
 const titleSegments = [title ?? frontmatter?.title, APP_NAME].filter(Boolean)
 const isHome = Astro.url.pathname === '/'
 ---
@@ -34,7 +38,7 @@ const isHome = Astro.url.pathname === '/'
     <main
       id="application"
       class:list={{ 'has-topbar': !isHome, 'is-homepage': isHome }}>
-      <Header />
+      <Header currentPath={Astro.url.pathname} client:load />
       <div class="main-content">
         <slot />
       </div>
@@ -50,6 +54,8 @@ const isHome = Astro.url.pathname === '/'
         />
       )
     }
+    {elements?.stars && <Stars />}
+    {elements?.lines && <Lines />}
   </body>
 </html>
 

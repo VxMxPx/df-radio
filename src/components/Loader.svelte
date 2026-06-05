@@ -5,13 +5,19 @@
     size?: number
     color?: string
     text?: string
+    class?: string
   }
 
-  const { size = 24, text, color = 'currentColor' }: Props = $props()
+  const {
+    size = 24,
+    text,
+    class: classes = '',
+    color = 'currentColor',
+  }: Props = $props()
 </script>
 
 <span
-  class="ui Loader flex flex-col gap-1 items-center"
+  class={`ui Loader flex flex-col gap-1 items-center ${classes}`}
   aria-label="Loading"
   role="status">
   <Icon name="Hourglass" {size} {color} />

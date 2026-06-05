@@ -19,7 +19,6 @@
       if (!audio.getAttribute('src')) {
         audio.src = STREAM_URL
       }
-
       await audio.play()
       playerState.isPlaying = true
     } catch {
@@ -79,8 +78,8 @@
   </audio>
   <div class="flex gap-2">
     <Button
-      onclick={playStream}
-      class={`Disc w-8 h-8 ${playerState.isPlaying ? 'playing' : ''}`}
+      onclick={() => !playerState.isPlaying && playStream()}
+      class={`Disc w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
       aria-label={`Play ${STREAM_NAME}`}>
       <div
         class="absolute overflow-hidden top-0 left-0 w-full h-full flex items-center justify-center">
@@ -88,22 +87,18 @@
         <Icon class="record" name="Disc" size={22} color="#ffffff" />
       </div>
     </Button>
-    <!-- <div class="flex flex-col text-left">
-      <small>The Title</small>
-      <small>The Artist</small>
-    </div> -->
   </div>
   <Button
     onclick={togglePlaying}
-    class="h-8 px-4!"
+    class="h-10 px-4! gap-2"
+    variant={playerState.isPlaying || playerState.isLoading
+      ? 'default'
+      : 'accent'}
     aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${STREAM_NAME}`}>
     {#if playerState.isLoading}
-      <Loader color="rgb(255, 255, 255, .8)" size={16} />
+      <Loader class="opacity-90" size={16} />
     {:else}
-      <!-- <Icon
-        name={playerState.isPlaying ? 'Stop' : 'Play'}
-        color="rgb(255, 255, 255, .8)"
-        size={32} /> -->
+      <!-- <Icon name={playerState.isPlaying ? 'Stop' : 'Play'} size={12} /> -->
       {playerState.isPlaying ? 'Stop' : 'Play'}
     {/if}
   </Button>
@@ -112,7 +107,7 @@
   {/if}
   <Button
     onclick={toggleMuted}
-    class="w-8 h-8"
+    class="w-10 h-10"
     aria-label={`${playerState.isMuted ? 'Unmute' : 'Mute'} ${STREAM_NAME}`}
     aria-pressed={playerState.isMuted}>
     <Icon

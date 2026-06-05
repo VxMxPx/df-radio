@@ -46,7 +46,7 @@
   }
 
   const hasValue = (
-    control: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    control: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
   ) => {
     if (control instanceof HTMLInputElement) {
       if (control.type === 'checkbox' || control.type === 'radio') {
@@ -128,7 +128,7 @@
 </script>
 
 <form
-  class={`ui Form flex flex-col gap-5 ${classes}`}
+  class={`ui Form flex flex-col gap-3 ${classes}`}
   novalidate
   oninput={input}
   onchange={change}
