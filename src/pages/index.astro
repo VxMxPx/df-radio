@@ -5,11 +5,15 @@ import Layout from '@app/layouts/Layout.astro'
 
 <Layout>
   <div class="contents">
-    <Box>
+    <Box floating>
       Waves of sound, thought, and symbol. Streaming from an alternate present.
       Welcome to the broadcast beyond the ordinary.
       <Divider />
-      <Player client:load transition:name="player" />
+      <Player
+        client:load
+        transition:name="player"
+        transition:persist="player"
+      />
     </Box>
   </div>
 </Layout>
@@ -20,10 +24,10 @@ import Layout from '@app/layouts/Layout.astro'
   @reference 'tailwindcss';
 
   .contents {
-    @apply flex justify-center;
+    @apply flex grow justify-center items-center;
   }
   :global(.Box) {
-    @apply z-10 w-130 text-center backdrop-blur-sm;
+    @apply z-10 w-130 text-center relative backdrop-blur-sm mt-[-25%];
   }
   :global(body > main) {
     @apply relative z-2;
