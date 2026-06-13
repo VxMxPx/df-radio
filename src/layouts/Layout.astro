@@ -33,8 +33,8 @@ const isHome = Astro.url.pathname === '/'
     <ClientRouter />
   </head>
   <body>
-    <Font cssVariable="--font-montagu-slab" preload />
-    <Font cssVariable="--font-handjet" preload />
+    <Font cssVariable="--font-ttl" preload />
+    <Font cssVariable="--font-txt" preload />
     <main
       id="application"
       class:list={{ 'has-topbar': !isHome, 'is-homepage': isHome }}>
