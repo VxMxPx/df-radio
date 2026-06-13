@@ -17,13 +17,13 @@ export default defineConfig({
     {
       provider: fontProviders.google(),
       name: 'Montagu Slab',
-      cssVariable: '--font-montagu-slab',
+      cssVariable: '--font-ttl',
       weights: [300],
     },
     {
       provider: fontProviders.google(),
       name: 'Handjet',
-      cssVariable: '--font-handjet',
+      cssVariable: '--font-txt',
     },
   ],
 

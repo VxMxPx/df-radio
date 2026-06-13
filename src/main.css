@@ -12,8 +12,11 @@
 
   --w-page: 1000px;
 
-  --font-ttl: var(--font-montagu-slab);
-  --font-txt: var(--font-handjet);
+  --font-size-body: 20px;
+  --font-size-small: 14px;
+
+  /* --font-ttl: var(--font-montagu-slab);
+  --font-txt: var(--font-handjet); */
 }
 
 @theme {
@@ -39,7 +42,7 @@ body {
   color: var(--color-fg);
 
   font-family: var(--font-txt);
-  font-size: 20px;
+  font-size: var(--font-size-body);
 }
 body {
   padding: 0 20px;
@@ -106,7 +109,7 @@ a {
     }
   }
   small {
-    font-size: 14px;
+    font-size: var(--font-size-small);
   }
   button {
     cursor: pointer;
@@ -137,7 +140,7 @@ a {
   }
 
   *::placeholder {
-    font-size: 16px;
+    font-size: var(--font-size-small);
   }
 
   ::view-transition-old(player),
