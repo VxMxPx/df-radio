@@ -11,6 +11,8 @@ export { default as CircleX } from './circle-x.svg.svelte'
 export { default as Bug } from './bug.svg.svelte'
 export { default as CircleCheck } from './circle-check.svg.svelte'
 export { default as Menu } from './menu.svg.svelte'
+export { default as ArrowLeft } from './arrow-left.svg.svelte'
+export { default as ArrowRight } from './arrow-right.svg.svelte'
 // Social
 export { default as SocialX } from './social-x.svg.svelte'
 export { default as SocialTelegram } from './social-telegram.svg.svelte'
