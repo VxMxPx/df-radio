@@ -19,7 +19,8 @@
 
   .lines > div {
     z-index: 0;
-    position: absolute;
+    /* position: absolute; */
+    position: fixed;
   }
   .lines > div > small {
     color: #ecbd47;
@@ -43,7 +44,7 @@
     height: 130px;
     background: url(/public/images/lines-right-1.svg) no-repeat;
     background-size: 100%;
-    right: 0;
+    right: -20px;
     top: 20%;
   }
   .lines-2 > small {
@@ -55,8 +56,10 @@
     height: 154px;
     background: url(/public/images/lines-left-1.svg) no-repeat;
     background-size: 100%;
-    left: 0;
-    top: 30%;
+    /* left: 0;
+    top: 30%; */
+    left: -20px;
+    top: 257px;
   }
   .lines-3 > small {
     top: 90px;
