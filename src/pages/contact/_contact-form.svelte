@@ -34,10 +34,10 @@
 
 <Form class="request-form" onsubmit={submit}>
   <Select label="Reason" name="reason">
-    <option>Say hello</option>
-    <option>Recommend song / band</option>
-    <option>Request song removal</option>
-    <option>Cooperation</option>
+    <option id="hello">Say Hello</option>
+    <option id="co-op">Cooperation</option>
+    <option id="recom">Recommendations</option>
+    <option id="remov">Request Removal</option>
   </Select>
   <Input
     required
