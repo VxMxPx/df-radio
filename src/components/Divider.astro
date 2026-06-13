@@ -1,12 +1,13 @@
 ---
 interface Props {
   wavey?: boolean
+  class?: string
 }
 
-const { wavey } = Astro.props
+const { wavey, class: classes = '' } = Astro.props
 ---
 
-<div class="ui Divider" class:list={{ wavey }}>
+<div class={`ui Divider ${classes}`} class:list={{ wavey }}>
   {wavey && <img src="/public/images/divider-wave.svg" alt="" />}
 </div>
 
