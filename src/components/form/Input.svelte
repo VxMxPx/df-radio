@@ -31,6 +31,7 @@
     border-radius: 4px;
     padding: 4px 8px;
     background-color: rgb(0 0 0 / 0.4);
+    font-size: var(--font-size-body);
   }
 
   .ui.Input:focus {
@@ -46,6 +47,6 @@
   .ui.Field[data-error]::after {
     content: attr(data-error);
     color: rgb(248 113 113);
-    font-size: 14px;
+    font-size: var(--font-size-small);
   }
 </style>

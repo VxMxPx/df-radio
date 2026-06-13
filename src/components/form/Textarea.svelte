@@ -16,11 +16,8 @@
 
 <label class="ui Field" data-required={required || undefined}>
   {label}
-  <textarea
-    class={`ui Textarea ${classes}`}
-    bind:value
-    {required}
-    {...props}></textarea>
+  <textarea class={`ui Textarea ${classes}`} bind:value {required} {...props}
+  ></textarea>
 </label>
 
 <style>
@@ -39,6 +36,7 @@
     min-height: 8em;
     max-height: 400px;
     resize: none;
+    font-size: var(--font-size-body);
   }
 
   .ui.Textarea:focus {
@@ -54,6 +52,6 @@
   .ui.Field[data-error]::after {
     content: attr(data-error);
     color: rgb(248 113 113);
-    font-size: 14px;
+    font-size: var(--font-size-small);
   }
 </style>

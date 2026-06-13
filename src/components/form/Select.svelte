@@ -32,16 +32,26 @@
   }
 
   .ui.Select {
-    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.75);
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 / 0.15),
+      0 0 0 0 rgb(0 0 0 /0);
     border-radius: 4px;
     padding: 4px 8px;
     background-color: rgb(0 0 0 / 0.4);
-    font-size: 20px;
+    font-size: var(--font-size-body);
   }
 
-  .ui.Select:focus {
-    outline: 1px solid rgba(236, 189, 71, 0.5);
+  .ui.Select:focus-within {
+    outline: 1px solid color-mix(in srgb, var(--color-ttl) 50%, transparent);
     outline-offset: 2px;
+  }
+
+  .ui.Select:active:hover,
+  .ui.Select:active {
+    box-shadow:
+      inset -1px -1px rgb(255 255 255 / 0.15),
+      0 0 14px 0 rgb(0 0 0 /0.5);
+    transition: box-shadow 0.1s ease;
   }
 
   :global(.ui.Field[data-error]) .ui.Select {
@@ -52,6 +62,6 @@
   .ui.Field[data-error]::after {
     content: attr(data-error);
     color: rgb(248 113 113);
-    font-size: 14px;
+    font-size: var(--font-size-small);
   }
 </style>
