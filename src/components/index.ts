@@ -4,6 +4,7 @@ export { default as Footer } from './Footer.astro'
 export { default as Stars } from './Stars.astro'
 export { default as Lines } from './Lines.astro'
 export { default as Divider } from './Divider.astro'
+export { default as Accordion } from './Accordion.astro'
 // Svelte
 export { default as Button } from './Button.svelte'
 export { default as Icon } from './Icon.svelte'

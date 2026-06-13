@@ -1,0 +1,60 @@
+---
+import Icon from './Icon.svelte'
+
+type Props = {
+  title: string
+  open?: boolean
+  class?: string
+}
+
+const { title, open = false, class: classes } = Astro.props
+---
+
+<details class:list={['ui Accordion', classes]} open={open}>
+  <summary class="Accordion__summary">
+    <span class="Accordion__icon" aria-hidden="true">
+      <Icon name="ArrowRight" size={18} />
+    </span>
+    <span>{title}</span>
+  </summary>
+  <div class="Accordion__content">
+    <slot />
+  </div>
+</details>
+
+<style>
+  @reference 'tailwindcss';
+
+  .Accordion {
+    @apply bg-[rgb(0,0,0,0.25)] rounded-lg;
+  }
+
+  .Accordion__summary {
+    @apply flex items-center gap-3 p-2;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .Accordion__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .Accordion__icon {
+    @apply inline-flex items-center justify-center;
+    transition: transform 150ms ease-out;
+  }
+
+  .Accordion[open] .Accordion__icon {
+    transform: rotate(90deg);
+  }
+
+  .Accordion__content {
+    @apply px-4 pb-4 flex flex-col gap-2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .Accordion__icon {
+      transition: none;
+    }
+  }
+</style>
