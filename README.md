@@ -2,6 +2,10 @@
 
 An Astro and Svelte radio site for a strange little broadcast beyond the ordinary.
 
+## Libraries
+
+- Icons: https://iconoir.com/
+
 ## Commands
 
 Run commands from the project root:
