@@ -1,24 +1,46 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import type { HTMLButtonAttributes } from 'svelte/elements'
+  import type {
+    HTMLAnchorAttributes,
+    HTMLButtonAttributes,
+  } from 'svelte/elements'
 
-  type ButtonProps = HTMLButtonAttributes & {
-    children?: Snippet
-    variant?: 'default' | 'accent'
-  }
+  type ButtonProps = Omit<HTMLButtonAttributes, 'type'> &
+    Omit<HTMLAnchorAttributes, 'type'> & {
+      children?: Snippet
+      variant?: 'default' | 'accent'
+      href?: HTMLAnchorAttributes['href']
+      type?: HTMLButtonAttributes['type']
+    }
 
   const {
     children,
     class: classes = '',
     variant = 'default',
+    href,
     type = 'button',
     ...props
   }: ButtonProps = $props()
+
+  const anchorProps = $derived(props as HTMLAnchorAttributes)
+  const buttonProps = $derived(props as HTMLButtonAttributes)
 </script>
 
-<button class={`ui Button variant-${variant} ${classes}`} {type} {...props}>
-  {@render children?.()}
-</button>
+{#if href}
+  <a
+    class={`ui Button is-link variant-${variant} ${classes}`}
+    {href}
+    {...anchorProps}>
+    {@render children?.()}
+  </a>
+{:else}
+  <button
+    class={`ui Button variant-${variant} ${classes}`}
+    {type}
+    {...buttonProps}>
+    {@render children?.()}
+  </button>
+{/if}
 
 <style>
   .ui.Button {
@@ -34,15 +56,20 @@
     position: relative;
     z-index: 1;
     transition: all 0.5s ease;
+    font-size: var(--font-size-body);
+    text-decoration: none;
   }
   .ui.Button.variant-accent {
+    box-shadow:
+      inset 1px 1px rgb(255 255 255 / 0.75),
+      0 0 0 0 rgb(0 0 0 /0);
     background-color: var(--color-ttl);
     color: var(--color-bg);
   }
   .ui.Button.variant-accent:hover {
     box-shadow:
-      inset 1px 1px rgb(255 255 255 /0.15),
-      0 0 14px 0 var(--color-ttl);
+      inset 1px 1px rgb(255 255 255 /0.75),
+      0 0 14px 0 color-mix(in srgb, var(--color-ttl) 40%, transparent);
   }
 
   .ui.Button:focus-within {
