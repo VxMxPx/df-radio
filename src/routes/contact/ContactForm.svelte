@@ -6,22 +6,38 @@
   let formState = $state<FormState>('inactive')
   let formMessage = $state('')
 
-  const submit = (data: FormValues, event: SubmitEvent) => {
-    console.log(data)
+  const submit = async (data: FormValues, event: SubmitEvent) => {
+    const form = event.currentTarget as HTMLFormElement
+
     formState = 'working'
     formMessage = 'Submitting your message...'
-    setTimeout(() => {
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = (await response.json()) as {
+        error?: string
+        ok?: boolean
+      }
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || 'Something went wrong.')
+      }
+
       formState = 'success'
-      formMessage = 'Success!'
-    }, 4000)
-    setTimeout(() => {
+      formMessage = 'Message sent. Thank you!'
+      form.reset()
+    } catch (error) {
       formState = 'error'
-      formMessage = 'Something went wrong!'
-    }, 4000 * 2)
-    setTimeout(() => {
-      formState = 'inactive'
-      formMessage = '...'
-    }, 4000 * 3)
+      formMessage =
+        error instanceof Error ? error.message : 'Something went wrong.'
+    }
   }
 </script>
 

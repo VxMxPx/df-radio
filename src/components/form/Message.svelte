@@ -69,6 +69,8 @@
     overflow: hidden;
     position: absolute;
     z-index: 2;
+    padding: 0 20px;
+    text-align: center;
     pointer-events: none;
     transition: background-color 0.4s ease;
   }

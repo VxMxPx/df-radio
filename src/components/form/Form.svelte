@@ -12,7 +12,7 @@
     'onsubmit' | 'on:submit' | 'oninput' | 'on:input' | 'onchange' | 'on:change'
   > & {
     children?: Snippet
-    onsubmit?: (data: FormValues, event: SubmitEvent) => void
+    onsubmit?: (data: FormValues, event: SubmitEvent) => void | Promise<void>
     oninput?: (event: Event) => void
     onchange?: (event: Event) => void
   }
@@ -115,7 +115,7 @@
     onchange?.(event)
   }
 
-  const submit = (event: SubmitEvent) => {
+  const submit = async (event: SubmitEvent) => {
     event.preventDefault()
     const form = event.currentTarget as HTMLFormElement
 
@@ -123,7 +123,7 @@
       return
     }
 
-    onsubmit?.(getFormValues(form), event)
+    await onsubmit?.(getFormValues(form), event)
   }
 </script>
 
