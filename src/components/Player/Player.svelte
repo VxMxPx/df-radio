@@ -1,29 +1,21 @@
 <script lang="ts">
-  import Icon from '../Icon.svelte'
-  import Loader from '../Loader.svelte'
+  import { onMount } from 'svelte'
   import { STREAM_NAME, STREAM_URL } from '@app/constants'
-  import { playerState } from './playerState.svelte'
-  import Button from '../Button.svelte'
+  import { getPlayerAudio, playerState } from './playerState.svelte'
+  import {Button, Icon, Loader} from '../'
 
   type PlayerState = 'normal' | 'topbar'
-  type StreamMeta = {
-    title: string
-    artist?: string
-    cover?: string
-    urlName?: string
-    url?: string
-  }
 
   let { mode = 'normal' }: { mode?: PlayerState } = $props()
-  let audio: HTMLAudioElement
+  let audio = $state<HTMLAudioElement | null>(null)
+  let isReady = $state(false)
   let currentState = $derived(mode)
-  let streamMeta = $state<StreamMeta | null>(null)
 
   const setStreamMeta = () => {
-    streamMeta = {
+    playerState.streamMeta = {
       title: 'Gravity',
       artist: 'R3DN1K',
-      cover: '/public/channels4_profile.jpg',
+      cover: '/channels4_profile.jpg',
       urlName: 'R3DN1K on YouTube',
       url: 'https://YouTube.com',
     }
@@ -34,9 +26,16 @@
     playerState.isLoading = true
 
     try {
-      if (!audio.getAttribute('src')) {
+      audio ??= getPlayerAudio()
+
+      if (!audio) {
+        throw new Error('Audio unavailable')
+      }
+
+      if (!audio.src) {
         audio.src = STREAM_URL
       }
+
       await audio.play()
       setStreamMeta()
       playerState.isPlaying = true
@@ -49,12 +48,22 @@
   }
 
   const stopStream = () => {
+    if (!audio) {
+      return
+    }
+
+    playerState.isStopping = true
+    playerState.error = ''
     audio.pause()
     audio.removeAttribute('src')
     audio.load()
-    streamMeta = null
+    playerState.streamMeta = null
     playerState.isPlaying = false
     playerState.isLoading = false
+
+    window.setTimeout(() => {
+      playerState.isStopping = false
+    }, 0)
   }
 
   const togglePlaying = async () => {
@@ -69,63 +78,109 @@
   const toggleMuted = () => {
     playerState.isMuted = !playerState.isMuted
   }
-</script>
 
-<div class="Player" class:topbar={currentState === 'topbar'}>
-  <!-- Audio Element -->
-  <audio
-    bind:this={audio}
-    src={STREAM_URL}
-    muted={playerState.isMuted}
-    preload="none"
-    onplaying={() => {
+  onMount(() => {
+    audio = getPlayerAudio()
+    const readyFrame = window.requestAnimationFrame(() => {
+      isReady = true
+    })
+
+    if (!audio) {
+      return () => window.cancelAnimationFrame(readyFrame)
+    }
+
+    const playing = () => {
       playerState.isPlaying = true
       playerState.isLoading = false
       playerState.error = ''
-    }}
-    onpause={() => {
+      setStreamMeta()
+    }
+    const pause = () => {
       playerState.isPlaying = false
       playerState.isLoading = false
-    }}
-    onwaiting={() => {
+    }
+    const waiting = () => {
       playerState.isLoading = true
-    }}
-    onerror={() => {
+    }
+    const error = () => {
+      if (playerState.isStopping || !audio?.src) {
+        playerState.error = ''
+        playerState.isLoading = false
+        return
+      }
+
       playerState.error = 'Stream unavailable'
       playerState.isPlaying = false
       playerState.isLoading = false
-    }}>
-    <track kind="captions" />
-  </audio>
-  <!-- Main Controls -->
+    }
 
-  <div class="metadata" class:visible={streamMeta}>
+    audio.muted = playerState.isMuted
+    playerState.isPlaying = !audio.paused && !audio.ended
+
+    if (playerState.isPlaying && !playerState.streamMeta) {
+      setStreamMeta()
+    }
+
+    audio.addEventListener('playing', playing)
+    audio.addEventListener('pause', pause)
+    audio.addEventListener('waiting', waiting)
+    audio.addEventListener('error', error)
+
+    return () => {
+      window.cancelAnimationFrame(readyFrame)
+      audio?.removeEventListener('playing', playing)
+      audio?.removeEventListener('pause', pause)
+      audio?.removeEventListener('waiting', waiting)
+      audio?.removeEventListener('error', error)
+    }
+  })
+
+  $effect(() => {
+    if (audio) {
+      audio.muted = playerState.isMuted
+    }
+  })
+</script>
+
+<div
+  class="Player"
+  class:ready={isReady}
+  class:topbar={currentState === 'topbar'}>
+  <div class="metadata" class:visible={playerState.streamMeta}>
     <!-- Disc / Album Art -->
     <Button
       onclick={() => !playerState.isPlaying && playStream()}
-      class={`Disc overflow-hidden relative w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
+      class={`Disc overflow-hidden relative shrink-0 w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
       aria-label={`Play ${STREAM_NAME}`}>
       <div
         class="absolute overflow-hidden top-0 left-0 w-full h-full flex items-center justify-center">
         <Icon class="z-10 player" name="Play" size={16} color="#ffffff" />
         <Icon class="z-10 record" name="Disc" size={22} color="#ffffff" />
-        {#if streamMeta && streamMeta.cover}
-          <img class="absolute z-0" src={streamMeta.cover} alt="" />
+        {#if playerState.streamMeta?.cover}
+          <img
+            class="absolute z-0"
+            src={playerState.streamMeta.cover}
+            alt="" />
         {/if}
       </div>
     </Button>
 
-    <div class="details" class:visible={streamMeta} aria-hidden={!streamMeta}>
+    <div
+      class="details"
+      class:visible={playerState.streamMeta}
+      aria-hidden={!playerState.streamMeta}>
       <div class="flex gap-1">
-        <span>{streamMeta?.title}</span>
-        {#if streamMeta?.artist}
+        <span>{playerState.streamMeta?.title}</span>
+        {#if playerState.streamMeta?.artist}
           <span class="opacity-50">by</span>
-          <span>{streamMeta.artist}</span>
+          <span>{playerState.streamMeta.artist}</span>
         {/if}
       </div>
-      {#if streamMeta?.url}
+      {#if playerState.streamMeta?.url}
         <small class="flex">
-          <a href={streamMeta.url}>{streamMeta.urlName || 'URL'}</a>
+          <a href={playerState.streamMeta.url}>
+            {playerState.streamMeta.urlName || 'URL'}
+          </a>
         </small>
       {/if}
     </div>
@@ -139,17 +194,16 @@
   <!-- Toggle Play / Stop -->
   <Button
     onclick={togglePlaying}
-    class="PlayToggle h-10 px-4! gap-2 min-w-20"
+    class="PlayToggle h-10 px-4! gap-2"
     variant={playerState.isPlaying || playerState.isLoading
       ? 'default'
       : 'accent'}
     aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${STREAM_NAME}`}>
-    {#if playerState.isLoading}
-      <Loader class="opacity-90" size={16} />
-    {:else}
-      <!-- <Icon name={playerState.isPlaying ? 'Stop' : 'Play'} size={12} /> -->
-      {playerState.isPlaying ? 'Stop' : 'Play'}
-    {/if}
+      {#if playerState.isLoading}
+          <Loader class="opacity-90" size={16} />
+      {:else}
+          {playerState.isPlaying ? 'Stop' : 'Play'}
+      {/if}
   </Button>
 
   <!-- Toggle Mute -->
@@ -168,14 +222,21 @@
 
 <style>
   @reference 'tailwindcss';
+
   .Player {
-    @apply flex w-full items-center gap-3 justify-between transition-all duration-1500 ease-out;
+    --route-motion-duration: 340ms;
+    --route-motion-easing: ease;
+    @apply flex w-full items-center gap-3 justify-between;
   }
+
   .Player.topbar {
     @apply bg-black/40 flex p-4! backdrop-blur-sm! fixed
     top-0 left-0 z-10 w-full border-b-white/15 border-b
     shadow-[inset_0_-6px_10px_rgba(0,0,0,0.2)];
+    animation: topbar-arrive var(--route-motion-duration)
+      var(--route-motion-easing) both;
   }
+
   .metadata {
     display: flex;
     flex-direction: row;
@@ -183,16 +244,28 @@
     min-width: 0;
     white-space: nowrap;
     flex-grow: 0;
+    flex-basis: 40px;
+  }
+
+  .Player.ready .metadata {
+    transition:
+      flex-grow 500ms ease,
+      flex-basis 500ms ease;
   }
   .metadata.visible {
     flex-grow: 1;
+    flex-basis: 0;
   }
+
   .details {
     opacity: 0;
-    transform: translateX(-8px);
+    position: relative;
+    left: -20px;
     transition:
-      opacity 240ms ease,
-      transform 1s ease;
+      opacity 160ms ease,
+      left 160ms ease
+      /* transform 160ms ease */
+      ;
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
@@ -202,11 +275,23 @@
   .details.visible {
     pointer-events: auto;
     opacity: 1;
-    transform: translateX(0);
+    left: 0;
+    transition:
+      opacity 240ms ease 520ms,
+      left 360ms ease 520ms
+      /* transform 360ms ease 520ms */
+      ;
   }
-  .metadata.visible + :global(.PlayToggle) {
+
+  .Player.ready .metadata.visible + :global(.PlayToggle) {
     animation: play-toggle-arrive 1s ease;
   }
+
+  :global(.PlayToggle) {
+    min-width: 80px;
+    overflow: hidden;
+  }
+
   /* Disc */
   :global(.Disc .Icon.player) {
     position: absolute;
@@ -242,6 +327,32 @@
     to {
       opacity: 1;
       transform: translateX(0) scale(1);
+    }
+  }
+
+  @keyframes player-control-state {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes topbar-arrive {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .Player.topbar {
+      animation: none;
     }
   }
 </style>

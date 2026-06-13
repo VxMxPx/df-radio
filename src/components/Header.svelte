@@ -40,14 +40,16 @@
       </a>
     {/each}
   </nav>
-  <Button
-    aria-controls="main-nav"
-    aria-expanded={isNavOpen}
-    aria-label="Toggle navigation"
-    class="mobile-nav-button w-8 h-8"
-    onclick={() => (isNavOpen = !isNavOpen)}>
-    <Icon name="Menu" size={20} />
-  </Button>
+  <div class="mobile-nav-button" class:open={isNavOpen}>
+    <Button
+      aria-controls="main-nav"
+      aria-expanded={isNavOpen}
+      aria-label="Toggle navigation"
+      class="w-8 h-8"
+      onclick={() => (isNavOpen = !isNavOpen)}>
+      <Icon name="Menu" size={20} />
+    </Button>
+  </div>
 </header>
 
 <style>
@@ -58,6 +60,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    z-index: 2;
   }
   header h1 {
     color: var(--color-fg);
@@ -99,13 +102,15 @@
     margin-left: var(--nav-gap);
   }
 
-  :global(.ui.Button.mobile-nav-button) {
+  .mobile-nav-button {
     display: none;
   }
 
   @media (width < 680px) {
-    :global(.ui.Button.mobile-nav-button) {
-      display: flex;
+    .mobile-nav-button {
+      display: block;
+      position: relative;
+      z-index: 1001;
     }
 
     nav {
@@ -136,12 +141,7 @@
       content: none;
     }
 
-    :global(.ui.Button.mobile-nav-button) {
-      position: relative;
-      z-index: 1001;
-    }
-
-    :global(.ui.Button.mobile-nav-button[aria-expanded='true']) {
+    .mobile-nav-button.open {
       position: fixed;
       top: 24px;
       right: 24px;

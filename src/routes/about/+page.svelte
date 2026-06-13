@@ -1,12 +1,11 @@
----
-import { Divider } from '@app/components'
-import Layout from '@app/layouts/Layout.astro'
----
+<script lang="ts">
+  import { Divider, Page } from '@app/components'
+</script>
 
-<Layout title="About" elements={{ lines: true }}>
+<Page title="About" elements={{ lines: true }}>
   <h2>About the Project</h2>
   <Divider />
-  <!-- INTRO -->
+
   <div class="columns">
     <p>
       This signal is not mapped. It drifts, bends, and hides itself in the folds
@@ -33,8 +32,9 @@ import Layout from '@app/layouts/Layout.astro'
       you cannot see.
     </p>
   </div>
+
   <Divider wavey />
-  <!-- TEAM -->
+
   <div class="team section">
     <h3>Meet the Team</h3>
     <div class="columns">
@@ -57,10 +57,8 @@ import Layout from '@app/layouts/Layout.astro'
         <div class="flex flex-col gap-2">
           <img
             class="block rounded-xs object-cover"
-            src="/public/images/mdccc-cc.png"
-            alt=""
-            class="rounded-2xl"
-          />
+            src="/images/mdccc-cc.png"
+            alt="" />
           <p>
             <strong>MDCCC</strong>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex debitis voluptatibus
@@ -72,9 +70,9 @@ import Layout from '@app/layouts/Layout.astro'
       </div>
     </div>
   </div>
-  <!-- MISSION -->
+
   <div class="team section">
     <h3>Mission</h3>
     <div class="columns"></div>
   </div>
-</Layout>
+</Page>

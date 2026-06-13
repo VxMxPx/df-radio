@@ -1,12 +1,5 @@
 <script lang="ts">
-  import {
-    Button,
-    Form,
-    Input,
-    Select,
-    Textarea,
-    Message,
-  } from '@app/components'
+  import { Button, Form, Input, Select, Textarea, Message } from '@app/components'
   import type { FormValues } from '@app/components/form/Form.svelte'
   import type { FormState } from '@app/components/form/Message.svelte'
 

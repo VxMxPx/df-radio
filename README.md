@@ -1,6 +1,6 @@
-# Etheric Waves
+# DarkForest.fm
 
-An Astro and Svelte radio site for a strange little broadcast beyond the ordinary.
+A SvelteKit radio site for a strange little broadcast beyond the ordinary.
 
 ## Libraries
 
@@ -16,6 +16,7 @@ Run commands from the project root:
 | `pnpm dev`     | Start the local dev server   |
 | `pnpm build`   | Build the production site    |
 | `pnpm preview` | Preview the production build |
+| `pnpm check`   | Sync SvelteKit generated types |
 
 ## Commit Notation
 
@@ -36,5 +37,5 @@ add: player transition
 fix: player state reset
 change: player layout
 remove: unused topbar component
-deps: upgrade astro and svelte
+deps: upgrade svelte
 ```

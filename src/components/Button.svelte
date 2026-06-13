@@ -50,6 +50,7 @@
     justify-content: center;
     padding: 4px 8px;
     background-color: var(--color-bg-faded);
+    backdrop-filter: blur(4px);
     box-shadow:
       inset 1px 1px rgb(255 255 255 / 0.15),
       0 0 0 0 rgb(0 0 0 /0);

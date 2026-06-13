@@ -1,16 +1,23 @@
----
-import Icon from './Icon.svelte'
+<script lang="ts">
+  import type { Snippet } from 'svelte'
+  import Icon from './Icon.svelte'
 
-type Props = {
-  title: string
-  open?: boolean
-  class?: string
-}
+  type Props = {
+    children?: Snippet
+    title: string
+    open?: boolean
+    class?: string
+  }
 
-const { title, open = false, class: classes } = Astro.props
----
+  const {
+    children,
+    title,
+    open = false,
+    class: classes = '',
+  }: Props = $props()
+</script>
 
-<details class:list={['ui Accordion', classes]} open={open}>
+<details class={`ui Accordion ${classes}`} {open}>
   <summary class="Accordion__summary">
     <span class="Accordion__icon" aria-hidden="true">
       <Icon name="ArrowRight" size={18} />
@@ -18,7 +25,7 @@ const { title, open = false, class: classes } = Astro.props
     <span>{title}</span>
   </summary>
   <div class="Accordion__content">
-    <slot />
+    {@render children?.()}
   </div>
 </details>
 

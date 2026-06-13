@@ -1,9 +1,9 @@
----
-import { APP_VERSION, ME } from '@app/constants'
+<script lang="ts">
+  import { APP_VERSION, ME } from '@app/constants'
 
-const version = __APP_VERSION__
-const year = new Date().getFullYear()
----
+  const version = __APP_VERSION__
+  const year = new Date().getFullYear()
+</script>
 
 <div class="footer">
   <a href="/version">
@@ -14,7 +14,6 @@ const year = new Date().getFullYear()
 <style>
   .footer {
     opacity: 0.5;
-    /* position: absolute; */
     width: 100%;
     bottom: 0;
     left: 0;
@@ -25,6 +24,7 @@ const year = new Date().getFullYear()
     justify-content: center;
     align-items: center;
   }
+
   .footer a {
     text-decoration: none;
   }

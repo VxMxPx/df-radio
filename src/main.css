@@ -1,3 +1,5 @@
+@import '@fontsource/handjet/latin-400.css';
+@import '@fontsource/montagu-slab/latin-300.css';
 @import 'tailwindcss';
 
 :root {
@@ -15,8 +17,8 @@
   --font-size-body: 20px;
   --font-size-small: 14px;
 
-  /* --font-ttl: var(--font-montagu-slab);
-  --font-txt: var(--font-handjet); */
+  --font-ttl: 'Montagu Slab', serif;
+  --font-txt: 'Handjet', system-ui, sans-serif;
 }
 
 @theme {
@@ -117,18 +119,18 @@ a {
   code {
     background: transparent;
   }
-  pre.astro-code {
+  pre {
     background: rgb(0 0 0 /0.2) !important;
     padding: 10px !important;
     color: inherit !important;
     font-family: inherit;
   }
   code,
-  pre.astro-code code {
+  pre code {
     color: inherit !important;
     font-family: inherit;
   }
-  pre.astro-code {
+  pre {
     white-space: pre-wrap;
   }
   hr {
@@ -141,6 +143,10 @@ a {
 
   *::placeholder {
     font-size: var(--font-size-small);
+  }
+  input::placeholder {
+    position: relative;
+    top: -2px;
   }
 
   ::view-transition-old(player),

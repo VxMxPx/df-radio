@@ -1,10 +1,11 @@
-/// <reference types="astro/client" />
+/// <reference types="@sveltejs/kit" />
+/// <reference types="vite/client" />
 
 declare const __APP_VERSION__: string
 
-declare module '*.astro' {
-  import type { AstroComponentFactory } from 'astro/runtime/server/index.js'
+declare module '*.svelte' {
+  import type { Component } from 'svelte'
 
-  const component: AstroComponentFactory
+  const component: Component<any>
   export default component
 }
