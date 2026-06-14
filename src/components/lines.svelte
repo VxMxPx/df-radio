@@ -62,7 +62,7 @@
     background: url('/images/lines-left-1.svg') no-repeat;
     background-size: 100%;
     left: -20px;
-    top: 257px;
+    top: 277px;
   }
 
   .lines-3 > small {

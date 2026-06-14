@@ -60,7 +60,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    z-index: 2;
+    z-index: 20;
   }
   header h1 {
     color: var(--color-fg);
@@ -95,7 +95,18 @@
   }
   nav a.active {
     font-weight: bold;
+    position: relative;
   }
+  /* nav a.active::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #161019;
+    left: calc(50% - 16px);
+    bottom: -16px;
+    transform: rotate(45deg);
+  } */
   nav a:not(:last-child)::after {
     content: '|';
     opacity: 30%;
@@ -143,8 +154,8 @@
 
     .mobile-nav-button.open {
       position: fixed;
-      top: 24px;
-      right: 24px;
+      bottom: 40px;
+      right: calc(50% - 20px);
     }
   }
 
