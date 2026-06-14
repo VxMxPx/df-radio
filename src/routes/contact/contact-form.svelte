@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button, Form, Input, Select, Textarea, Message } from '@app/components'
-  import type { FormValues } from '@app/components/form/Form.svelte'
-  import type { FormState } from '@app/components/form/Message.svelte'
+  import type { FormValues } from '@app/components/form/form.svelte'
+  import type { FormState } from '@app/components/form/message.svelte'
 
   let formState = $state<FormState>('inactive')
   let formMessage = $state('')

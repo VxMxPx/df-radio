@@ -7,7 +7,7 @@
     Page,
     type IconName,
   } from '@app/components'
-  import ContactForm from './ContactForm.svelte'
+  import ContactForm from './contact-form.svelte'
 
   const socials: {
     name: string
