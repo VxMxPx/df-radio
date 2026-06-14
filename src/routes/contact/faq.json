@@ -1,0 +1,41 @@
+[
+  {
+    "title": "What is DarkForest.fm?",
+    "body": "DarkForest.fm is an independent online radio station exploring music, stories, art, mystery, and the unknown."
+  },
+  {
+    "title": "How can I listen?",
+    "body": "You can listen directly through the website. Click the \"Play\" button above."
+  },
+  {
+    "title": "Who runs DarkForest.fm?",
+    "body": "<p>For now, Dark Forest FM is simply one person following an idea into the woods and seeing where the path leads.</p><p>If you’d like to know more about the project and the person behind it, you’ll find the story on the <a href=\"/about\">About page</a>.</p>"
+  },
+
+  {
+    "title": "Where does the music come from?",
+    "body": "The music played on DarkForest.fm is either Creative Commons licensed or shared through a direct agreement between the artist and the radio. No commercially licensed music is played on the station."
+  },
+  {
+    "title": "Can I submit music?",
+    "body": "Yes. We are always interested in discovering new music and independent artists. Use the contact form or write to us directly."
+  },
+  {
+    "title": "Can I suggest a topic, story, or idea?",
+    "body": "Absolutely. Recommendations, strange discoveries, interesting links, forgotten histories, and unexpected inspirations are all welcome."
+  },
+
+  {
+    "title": "Is this project vibe-coded?",
+    "body": "<p>No.</p><p>Dark Forest FM is largely hand-crafted, including the design, infrastructure, and most of the code. Modern AI tools occasionally assist with writing and editing, but the project itself is built intentionally, one piece at a time.</p>"
+  },
+  {
+    "title": "What is the long-term vision?",
+    "body": "To create a place worth returning to: a broadcast for night owls, travelers, dreamers, builders, artists, and anyone drawn to the edge of the map."
+  },
+
+  {
+    "title": "Why are you asking for donations?",
+    "body": "Running an online radio station requires servers, bandwidth, storage, and ongoing maintenance. Donations help keep the broadcast alive and allow the project to grow."
+  }
+]

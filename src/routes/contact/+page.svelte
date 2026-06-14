@@ -7,33 +7,16 @@
     Page,
     type IconName,
   } from '@app/components'
+  import faq from './faq.json'
+  import socialsData from './socials.json'
   import ContactForm from './contact-form.svelte'
 
-  const socials: {
+  const socials = socialsData as {
     name: string
     icon: IconName
     handle: string
     link: string
-  }[] = [
-    {
-      name: 'Telegram',
-      icon: 'SocialTelegram',
-      handle: 'https://t.me/darkforestfm',
-      link: 'https://t.me/darkforestfm',
-    },
-    {
-      name: 'X',
-      icon: 'SocialX',
-      handle: '@darkforestfm',
-      link: 'https://x.com/darkforestfm',
-    },
-    {
-      name: 'Instagram',
-      icon: 'SocialInstagram',
-      handle: '@darkforest.fm',
-      link: 'https://www.instagram.com/darkforest.fm/',
-    },
-  ]
+  }[]
 </script>
 
 <Page title="Contact" elements={{ stars: true, lines: true }}>
@@ -106,51 +89,11 @@
       <div class="basis-0 grow min-w-0 flex flex-col gap-4">
         <h3>FAQ</h3>
         <div class="flex flex-col gap-2">
-          <Accordion title="What is DarkForest.fm?">
-            DarkForest.fm is an independent online radio station exploring
-            music, stories, art, mystery, and the unknown.
-          </Accordion>
-          <Accordion title="How can I listen?">
-            You can listen directly through the website. Click the "Play" button
-            above.
-          </Accordion>
-          <Accordion title="Can I submit music?">
-            Yes. We are always interested in discovering new music and
-            independent artists. Use the contact form or write to us directly.
-          </Accordion>
-          <Accordion title="Can I suggest a topic, story, or idea?">
-            Absolutely. Recommendations, strange discoveries, interesting links,
-            forgotten histories, and unexpected inspirations are all welcome.
-          </Accordion>
-          <Accordion title="Who runs DarkForest.fm?">
-            <p>
-              For now, Dark Forest FM is simply one person following an idea
-              into the woods and seeing where the path leads.
-            </p>
-            <p>
-              If you’d like to know more about the project and the person behind
-              it, you’ll find the story on the <a href="/about">About page</a>.
-            </p>
-          </Accordion>
-          <Accordion title="Why are you asking for donations?">
-            Running an online radio station requires servers, bandwidth,
-            storage, and ongoing maintenance. Donations help keep the broadcast
-            alive and allow the project to grow.
-          </Accordion>
-          <Accordion title="What is the long-term vision?">
-            To create a place worth returning to: a broadcast for night owls,
-            travelers, dreamers, builders, artists, and anyone drawn to the edge
-            of the map.
-          </Accordion>
-          <Accordion title="Is this project vibe-coded?">
-            <p>No.</p>
-            <p>
-              Dark Forest FM is largely hand-crafted, including the design,
-              infrastructure, and most of the code. Modern AI tools occasionally
-              assist with writing and editing, but the project itself is built
-              intentionally, one piece at a time.
-            </p>
-          </Accordion>
+          {#each faq as item}
+            <Accordion title={item.title}>
+              {@html item.body}
+            </Accordion>
+          {/each}
         </div>
       </div>
     </div>

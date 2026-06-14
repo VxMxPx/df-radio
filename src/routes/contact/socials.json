@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Telegram",
+    "icon": "SocialTelegram",
+    "handle": "https://t.me/darkforestfm",
+    "link": "https://t.me/darkforestfm"
+  },
+  {
+    "name": "X",
+    "icon": "SocialX",
+    "handle": "@darkforestfm",
+    "link": "https://x.com/darkforestfm"
+  },
+  {
+    "name": "Instagram",
+    "icon": "SocialInstagram",
+    "handle": "@darkforest.fm",
+    "link": "https://www.instagram.com/darkforest.fm/"
+  }
+]

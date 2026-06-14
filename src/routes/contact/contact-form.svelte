@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { api } from '@app/api'
   import { Button, Form, Input, Select, Textarea, Message } from '@app/components'
   import type { FormValues } from '@app/components/form/form.svelte'
   import type { FormState } from '@app/components/form/message.svelte'
@@ -13,23 +14,7 @@
     formMessage = 'Submitting your message...'
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      const result = (await response.json()) as {
-        error?: string
-        ok?: boolean
-      }
-
-      if (!response.ok || !result.ok) {
-        throw new Error(result.error || 'Something went wrong.')
-      }
-
+      await api.contact(data)
       formState = 'success'
       formMessage = 'Message sent. Thank you!'
       form.reset()
