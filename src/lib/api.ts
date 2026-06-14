@@ -7,6 +7,26 @@ export type ApiResponse = {
   ok?: boolean
 }
 
+export const get = async <Response>(
+  path: string,
+  options: ApiRequestOptions = {},
+) => {
+  const { fetch: requestFetch = fetch, headers, ...init } = options
+  const response = await requestFetch(path, {
+    ...init,
+    method: 'GET',
+    headers,
+  })
+
+  const result = (await response.json()) as Response & ApiResponse
+
+  if (!response.ok) {
+    throw new Error(result.error || 'Something went wrong.')
+  }
+
+  return result as Response
+}
+
 export const post = async <Data, Response extends ApiResponse>(
   path: string,
   data: Data,
