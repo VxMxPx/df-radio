@@ -1,10 +1,4 @@
-export type StreamMeta = {
-  title: string
-  artist?: string
-  cover?: string
-  urlName?: string
-  url?: string
-}
+import type { StreamMeta } from './stream'
 
 export const playerState = $state({
   isPlaying: false,

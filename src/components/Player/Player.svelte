@@ -1,24 +1,28 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { STREAM_NAME, STREAM_URL } from '@app/constants'
   import { getPlayerAudio, playerState } from './player-state.svelte'
-  import {Button, Icon, Loader} from '../'
+  import PlayerMetadataPopup from './player-metadata-popup.svelte'
+  import { stream } from './stream'
+  import { Button, Icon, Loader } from '../'
 
   type PlayerState = 'normal' | 'topbar'
 
   let { mode = 'normal' }: { mode?: PlayerState } = $props()
   let audio = $state<HTMLAudioElement | null>(null)
   let isReady = $state(false)
+  let isStreamPopupOpen = $state(false)
   let currentState = $derived(mode)
 
   const setStreamMeta = () => {
-    playerState.streamMeta = {
-      title: 'Gravity',
-      artist: 'R3DN1K',
-      cover: '/channels4_profile.jpg',
-      urlName: 'R3DN1K on YouTube',
-      url: 'https://YouTube.com',
+    playerState.streamMeta = stream.meta
+  }
+
+  const clickDisc = async () => {
+    if (!playerState.streamMeta) {
+      await playStream()
+      return
     }
+    isStreamPopupOpen = !isStreamPopupOpen
   }
 
   const playStream = async () => {
@@ -33,7 +37,7 @@
       }
 
       if (!audio.src) {
-        audio.src = STREAM_URL
+        audio.src = stream.url
       }
 
       await audio.play()
@@ -58,6 +62,7 @@
     audio.removeAttribute('src')
     audio.load()
     playerState.streamMeta = null
+    isStreamPopupOpen = false
     playerState.isPlaying = false
     playerState.isLoading = false
 
@@ -79,14 +84,24 @@
     playerState.isMuted = !playerState.isMuted
   }
 
+  const keydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      isStreamPopupOpen = false
+    }
+  }
+
   onMount(() => {
+    window.addEventListener('keydown', keydown)
     audio = getPlayerAudio()
     const readyFrame = window.requestAnimationFrame(() => {
       isReady = true
     })
 
     if (!audio) {
-      return () => window.cancelAnimationFrame(readyFrame)
+      return () => {
+        window.cancelAnimationFrame(readyFrame)
+        window.removeEventListener('keydown', keydown)
+      }
     }
 
     const playing = () => {
@@ -128,6 +143,7 @@
 
     return () => {
       window.cancelAnimationFrame(readyFrame)
+      window.removeEventListener('keydown', keydown)
       audio?.removeEventListener('playing', playing)
       audio?.removeEventListener('pause', pause)
       audio?.removeEventListener('waiting', waiting)
@@ -149,9 +165,11 @@
   <div class="metadata" class:visible={playerState.streamMeta}>
     <!-- Disc / Album Art -->
     <Button
-      onclick={() => !playerState.isPlaying && playStream()}
+      onclick={clickDisc}
+      onpointerdown={(event) => event.stopPropagation()}
       class={`Disc overflow-hidden relative shrink-0 w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
-      aria-label={`Play ${STREAM_NAME}`}>
+      aria-label={`${playerState.streamMeta ? 'Show details for' : 'Play'} ${stream.name}`}
+      aria-expanded={playerState.streamMeta ? isStreamPopupOpen : undefined}>
       <div
         class="absolute overflow-hidden top-0 left-0 w-full h-full flex items-center justify-center">
         <Icon class="z-10 player" name="Play" size={16} color="#ffffff" />
@@ -165,6 +183,15 @@
       </div>
     </Button>
 
+    {#if playerState.streamMeta}
+      <PlayerMetadataPopup
+        label={`${stream.name} details`}
+        meta={playerState.streamMeta}
+        onOutsideClick={() => (isStreamPopupOpen = false)}
+        open={isStreamPopupOpen}
+        placement={currentState === 'topbar' ? 'bottom' : 'top'} />
+    {/if}
+
     <div
       class="details"
       class:visible={playerState.streamMeta}
@@ -176,10 +203,11 @@
           <span>{playerState.streamMeta.artist}</span>
         {/if}
       </div>
-      {#if playerState.streamMeta?.url}
+      {#if playerState.streamMeta?.urls?.length}
         <small class="flex">
-          <a href={playerState.streamMeta.url}>
-            {playerState.streamMeta.urlName || 'URL'}
+          <a href={playerState.streamMeta.urls[0].url}>
+            {playerState.streamMeta.artist} on
+            {playerState.streamMeta.urls[0].label || playerState.streamMeta.urls[0].name || 'Url'}
           </a>
         </small>
       {/if}
@@ -198,19 +226,19 @@
     variant={playerState.isPlaying || playerState.isLoading
       ? 'default'
       : 'accent'}
-    aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${STREAM_NAME}`}>
-      {#if playerState.isLoading}
-          <Loader class="opacity-90" size={16} />
-      {:else}
-          {playerState.isPlaying ? 'Stop' : 'Play'}
-      {/if}
+    aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${stream.name}`}>
+    {#if playerState.isLoading}
+      <Loader class="opacity-90" size={16} />
+    {:else}
+      {playerState.isPlaying ? 'Stop' : 'Play'}
+    {/if}
   </Button>
 
   <!-- Toggle Mute -->
   <Button
     onclick={toggleMuted}
     class="w-10 h-10"
-    aria-label={`${playerState.isMuted ? 'Unmute' : 'Mute'} ${STREAM_NAME}`}
+    aria-label={`${playerState.isMuted ? 'Unmute' : 'Mute'} ${stream.name}`}
     aria-pressed={playerState.isMuted}>
     <Icon
       name={playerState.isMuted ? 'Mute' : 'Volume'}
@@ -238,6 +266,7 @@
   }
 
   .metadata {
+    position: relative;
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -245,6 +274,7 @@
     white-space: nowrap;
     flex-grow: 0;
     flex-basis: 40px;
+    overflow: visible;
   }
 
   .Player.ready .metadata {

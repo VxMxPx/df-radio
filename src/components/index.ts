@@ -10,6 +10,7 @@ export { default as Accordion } from './accordion.svelte'
 export { default as Button } from './button.svelte'
 export { default as Icon } from './icon.svelte'
 export { default as Loader } from './loader.svelte'
+export { default as Popup } from './popup.svelte'
 export type { IconName } from './icons/types'
 // Form
 export { default as Form } from './form/form.svelte'
