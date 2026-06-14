@@ -8,7 +8,7 @@
   type ButtonProps = Omit<HTMLButtonAttributes, 'type'> &
     Omit<HTMLAnchorAttributes, 'type'> & {
       children?: Snippet
-      variant?: 'default' | 'accent'
+      variant?: 'default' | 'accent' | 'pressed'
       href?: HTMLAnchorAttributes['href']
       type?: HTMLButtonAttributes['type']
     }
@@ -71,6 +71,24 @@
     box-shadow:
       inset 1px 1px rgb(255 255 255 /0.75),
       0 0 14px 0 color-mix(in srgb, var(--color-ttl) 40%, transparent);
+  }
+  .ui.Button.variant-pressed {
+    background-color: rgba(112, 112, 112, 0.15);
+    box-shadow:
+      inset -1px -1px rgb(255 255 255 / 0.06),
+      inset 3px 3px 6px rgb(0 0 0 / 0.7),
+      inset 0 0 0 1px rgb(0 0 0 / 0.6),
+      0 1px 0 rgb(255 255 255 / 0.08);
+    color: color-mix(in srgb, currentColor 72%, transparent);
+    transform: translateY(2px);
+  }
+  .ui.Button.variant-pressed:hover {
+    background-color: rgba(112, 112, 112, 0.3);
+    box-shadow:
+      inset -1px -1px rgb(255 255 255 / 0.08),
+      inset 3px 3px 7px rgb(0 0 0 / 0.75),
+      inset 0 0 0 1px rgb(0 0 0 / 0.65),
+      0 1px 0 rgb(255 255 255 / 0.1);
   }
 
   .ui.Button:focus-within {
