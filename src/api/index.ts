@@ -6,5 +6,5 @@ export const api = {
   schedule,
 }
 
-export type { ContactData } from './contact'
+export type { ContactData, ContactMetadata } from './contact'
 export type { ScheduleData, ScheduleItem } from './schedule'
