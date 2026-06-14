@@ -16,5 +16,11 @@
     "icon": "SocialInstagram",
     "handle": "@darkforest.fm",
     "link": "https://www.instagram.com/darkforest.fm/"
+  },
+  {
+    "name": "Email",
+    "icon": "Mail",
+    "handle": "hi@darkforest.fm",
+    "link": "mailto:hi@darkforest.fm"
   }
 ]
