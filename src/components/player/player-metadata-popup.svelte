@@ -62,13 +62,11 @@
 </script>
 
 <Popup class="flex flex-col gap-2" {label} {onOutsideClick} {open} {placement}>
-  <div class="PlayerMetadataPopup__cover">
-    {#if meta.cover}
+  {#if meta.cover}
+    <div class="PlayerMetadataPopup__cover">
       <img src={meta.cover} alt="" />
-    {:else}
-      <Icon name="Disc" size={56} color="#ffffff" />
-    {/if}
-  </div>
+    </div>
+  {/if}
 
   <div class="PlayerMetadataPopup__section">
     <strong>
@@ -111,7 +109,7 @@
   }
 
   .PlayerMetadataPopup__section {
-    @apply flex flex-col gap-2 first:pt-0 last:pb-0;
+    @apply flex flex-col gap-2 first:pt-0 last:pb-0 text-left;
   }
 
   .PlayerMetadataPopup__section strong {

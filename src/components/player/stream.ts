@@ -12,19 +12,9 @@ export type StreamMeta = {
 }
 
 export const stream = {
-  name: 'SomaFM Live',
-  url: 'https://s5.radio.co/s5f6124412/listen',
+  name: 'DarkForest.live',
+  url: 'https://ice5.somafm.com/live-128-mp3',
   meta: {
-    title: 'SomaFM Live',
-    artist: 'SomaFM',
-    album: 'Special Live Events and rebroadcasts of past live events',
-    cover: 'https://somafm.com/logos/512/live512.jpg',
-    urls: [
-      {
-        name: 'Homepage',
-        url: 'https://somafm.com/live',
-        label: 'SomaFM Live',
-      },
-    ],
+    title: '...',
   } satisfies StreamMeta,
 }

@@ -73,7 +73,7 @@
       0 0 14px 0 color-mix(in srgb, var(--color-ttl) 40%, transparent);
   }
   .ui.Button.variant-pressed {
-    background-color: rgba(112, 112, 112, 0.15);
+    background-color: rgb(38 38 38 / 15%);
     box-shadow:
       inset -1px -1px rgb(255 255 255 / 0.06),
       inset 3px 3px 6px rgb(0 0 0 / 0.7),
@@ -83,7 +83,7 @@
     transform: translateY(2px);
   }
   .ui.Button.variant-pressed:hover {
-    background-color: rgba(112, 112, 112, 0.3);
+    background-color: rgba(60, 60, 60, 0.3);
     box-shadow:
       inset -1px -1px rgb(255 255 255 / 0.08),
       inset 3px 3px 7px rgb(0 0 0 / 0.75),

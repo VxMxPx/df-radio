@@ -12,7 +12,7 @@
   let isReady = $state(false)
   let isStreamPopupOpen = $state(false)
   let currentState = $derived(mode)
-  let streamMetaRefresh: ReturnType<typeof window.setInterval> | null = null
+  let streamMetaRefresh: number | null = null
   let streamMetaAbortController: AbortController | null = null
 
   const setStreamMeta = () => {
@@ -220,7 +220,7 @@
     <!-- Disc / Album Art -->
     <Button
       onclick={clickDisc}
-      onpointerdown={(event) => event.stopPropagation()}
+      onpointerdown={event => event.stopPropagation()}
       class={`Disc overflow-hidden relative shrink-0 w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
       aria-label={`${playerState.streamMeta ? 'Show details for' : 'Play'} ${stream.name}`}
       aria-expanded={playerState.streamMeta ? isStreamPopupOpen : undefined}>
@@ -229,10 +229,7 @@
         <Icon class="z-10 player" name="Play" size={16} color="#ffffff" />
         <Icon class="z-10 record" name="Disc" size={22} color="#ffffff" />
         {#if playerState.streamMeta?.cover}
-          <img
-            class="absolute z-0"
-            src={playerState.streamMeta.cover}
-            alt="" />
+          <img class="absolute z-0" src={playerState.streamMeta.cover} alt="" />
         {/if}
       </div>
     </Button>
@@ -261,7 +258,9 @@
         <small class="flex">
           <a href={playerState.streamMeta.urls[0].url}>
             {playerState.streamMeta.artist} on
-            {playerState.streamMeta.urls[0].label || playerState.streamMeta.urls[0].name || 'Url'}
+            {playerState.streamMeta.urls[0].label ||
+              playerState.streamMeta.urls[0].name ||
+              'Url'}
           </a>
         </small>
       {/if}
@@ -347,24 +346,27 @@
     left: -20px;
     transition:
       opacity 160ms ease,
-      left 160ms ease
-      /* transform 160ms ease */
-      ;
+      left 160ms ease /* transform 160ms ease */;
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
     flex-direction: column;
     gap: 0px;
+    justify-content: center;
   }
+  .details > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
   .details.visible {
     pointer-events: auto;
     opacity: 1;
     left: 0;
     transition:
       opacity 240ms ease 520ms,
-      left 360ms ease 520ms
-      /* transform 360ms ease 520ms */
-      ;
+      left 360ms ease 520ms /* transform 360ms ease 520ms */;
   }
 
   .Player.ready .metadata.visible + :global(.PlayToggle) {
