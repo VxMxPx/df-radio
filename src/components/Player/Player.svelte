@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import { getPlayerAudio, playerState } from './player-state.svelte'
   import PlayerMetadataPopup from './player-metadata-popup.svelte'
-  import { stream } from './stream'
+  import { stream, type StreamMeta } from './stream'
   import { Button, Icon, Loader } from '../'
 
   type PlayerState = 'normal' | 'topbar'
@@ -12,9 +12,54 @@
   let isReady = $state(false)
   let isStreamPopupOpen = $state(false)
   let currentState = $derived(mode)
+  let streamMetaRefresh: ReturnType<typeof window.setInterval> | null = null
+  let streamMetaAbortController: AbortController | null = null
 
   const setStreamMeta = () => {
     playerState.streamMeta = stream.meta
+  }
+
+  const refreshStreamMeta = async () => {
+    streamMetaAbortController?.abort()
+    streamMetaAbortController = new AbortController()
+
+    try {
+      const response = await fetch('/api/stream-meta', {
+        signal: streamMetaAbortController.signal,
+      })
+
+      if (!response.ok) {
+        return
+      }
+
+      const { meta } = (await response.json()) as { meta?: StreamMeta }
+
+      if (meta?.title) {
+        playerState.streamMeta = meta
+      }
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return
+      }
+    }
+  }
+
+  const startStreamMetaRefresh = () => {
+    void refreshStreamMeta()
+
+    streamMetaRefresh ??= window.setInterval(() => {
+      void refreshStreamMeta()
+    }, 60000)
+  }
+
+  const stopStreamMetaRefresh = () => {
+    if (streamMetaRefresh) {
+      window.clearInterval(streamMetaRefresh)
+      streamMetaRefresh = null
+    }
+
+    streamMetaAbortController?.abort()
+    streamMetaAbortController = null
   }
 
   const clickDisc = async () => {
@@ -42,6 +87,7 @@
 
       await audio.play()
       setStreamMeta()
+      startStreamMetaRefresh()
       playerState.isPlaying = true
     } catch {
       playerState.error = 'Stream unavailable'
@@ -61,6 +107,7 @@
     audio.pause()
     audio.removeAttribute('src')
     audio.load()
+    stopStreamMetaRefresh()
     playerState.streamMeta = null
     isStreamPopupOpen = false
     playerState.isPlaying = false
@@ -109,10 +156,12 @@
       playerState.isLoading = false
       playerState.error = ''
       setStreamMeta()
+      startStreamMetaRefresh()
     }
     const pause = () => {
       playerState.isPlaying = false
       playerState.isLoading = false
+      stopStreamMetaRefresh()
     }
     const waiting = () => {
       playerState.isLoading = true
@@ -136,6 +185,10 @@
       setStreamMeta()
     }
 
+    if (playerState.isPlaying) {
+      startStreamMetaRefresh()
+    }
+
     audio.addEventListener('playing', playing)
     audio.addEventListener('pause', pause)
     audio.addEventListener('waiting', waiting)
@@ -148,6 +201,7 @@
       audio?.removeEventListener('pause', pause)
       audio?.removeEventListener('waiting', waiting)
       audio?.removeEventListener('error', error)
+      stopStreamMetaRefresh()
     }
   })
 

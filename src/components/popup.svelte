@@ -51,7 +51,7 @@
   @reference 'tailwindcss';
 
   .Popup {
-    @apply absolute left-0 z-20
+    @apply absolute left-0 z-1000
       w-[min(320px,calc(100vw-32px))] overflow-auto rounded-lg border
       border-white/15 bg-black/90 p-3 shadow-2xl backdrop-blur-md;
     white-space: normal;

@@ -31,7 +31,7 @@
         .replace(/[^a-z0-9]+/gi, ' ')
         .trim()
         .split(' ')
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
         .join('')
       const iconNames = [
         `Social${value}` as IconName,
@@ -61,12 +61,7 @@
   }
 </script>
 
-<Popup
-  class="flex flex-col gap-2"
-  {label}
-  {onOutsideClick}
-  {open}
-  {placement}>
+<Popup class="flex flex-col gap-2" {label} {onOutsideClick} {open} {placement}>
   <div class="PlayerMetadataPopup__cover">
     {#if meta.cover}
       <img src={meta.cover} alt="" />
@@ -84,7 +79,7 @@
       {/if}
     </strong>
     {#if meta.album}
-      <span>{meta.album}</span>
+      <small class="album">{meta.album}</small>
     {/if}
   </div>
 
@@ -116,7 +111,7 @@
   }
 
   .PlayerMetadataPopup__section {
-    @apply first:pt-0 last:pb-0;
+    @apply flex flex-col gap-2 first:pt-0 last:pb-0;
   }
 
   .PlayerMetadataPopup__section strong {
@@ -127,8 +122,8 @@
     @apply opacity-70;
   }
 
-  .PlayerMetadataPopup__section > span {
-    @apply mt-1 block opacity-70;
+  .PlayerMetadataPopup__section > .album {
+    @apply block opacity-70 leading-tight text-left;
   }
 
   .PlayerMetadataPopup__links {

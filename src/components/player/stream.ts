@@ -13,15 +13,18 @@ export type StreamMeta = {
 
 export const stream = {
   name: 'SomaFM Live',
-  url: 'https://ice5.somafm.com/live-128-mp3',
+  url: 'https://s5.radio.co/s5f6124412/listen',
   meta: {
-    title: 'Gravity',
-    artist: 'R3DN1K',
-    album: '',
-    // cover: '/channels4_profile.jpg',
+    title: 'SomaFM Live',
+    artist: 'SomaFM',
+    album: 'Special Live Events and rebroadcasts of past live events',
+    cover: 'https://somafm.com/logos/512/live512.jpg',
     urls: [
-      { name: 'YouTube', url: 'https://youtube.com/home' },
-      { name: 'Homepage', url: 'https://foobaz', label: 'Homepage' },
+      {
+        name: 'Homepage',
+        url: 'https://somafm.com/live',
+        label: 'SomaFM Live',
+      },
     ],
   } satisfies StreamMeta,
 }
