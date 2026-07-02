@@ -2,14 +2,15 @@
   import { Page } from '@app/components'
 </script>
 
-<Page title="Version">
+<Page title="Version" elements={{ lines: true, stars: true }}>
   <h2>Version</h2>
 
   <hr />
 
   <h4>TODO</h4>
 
-  <pre><code>_ Better font readability?
+  <pre><code
+      >_ Better font readability?
 _ Program page
 _ Mission section
 _ Donate</code></pre>
@@ -20,7 +21,8 @@ _ Donate</code></pre>
 
   <p>Visuals cleaned up.</p>
 
-  <pre><code>+ Mobile support
+  <pre><code
+      >+ Mobile support
 + Unified styles
 + Reworked home page</code></pre>
 
@@ -28,7 +30,8 @@ _ Donate</code></pre>
 
   <p>Initial demo version running mainly on a localhost.</p>
 
-  <pre><code>+ Base design
+  <pre><code
+      >+ Base design
 + Demo radio stream
 + Initial project</code></pre>
 
@@ -36,7 +39,8 @@ _ Donate</code></pre>
 
   <h4>Legend</h4>
 
-  <pre><code>+ added,
+  <pre><code
+      >+ added,
 - removed,
 _ fixed</code></pre>
 </Page>

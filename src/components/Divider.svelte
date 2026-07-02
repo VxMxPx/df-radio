@@ -2,12 +2,13 @@
   type Props = {
     wavey?: boolean
     class?: string
+    short?: boolean
   }
 
-  const { wavey = false, class: classes = '' }: Props = $props()
+  const { wavey = false, short, class: classes = '' }: Props = $props()
 </script>
 
-<div class={`ui Divider ${classes}`} class:wavey>
+<div class={`ui Divider ${classes} ${short && 'max-w-[10%]'}`} class:wavey>
   {#if wavey}
     <img src="/images/divider-wave.svg" alt="" />
   {/if}

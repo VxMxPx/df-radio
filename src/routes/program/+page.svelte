@@ -99,7 +99,7 @@
   })
 </script>
 
-<Page title="Program" elements={{ lines: true }}>
+<Page title="Program" elements={{ lines: true, stars: true }}>
   <h2>Program</h2>
   <Divider />
   <div class="columns">
@@ -114,7 +114,7 @@
       day as it finds its shape.
     </p>
   </div>
-  <Divider class="max-w-[15%]" />
+  <Divider short />
   <div class="flex flex-wrap gap-2">
     {#each buttons as item}
       <Button
@@ -144,7 +144,7 @@
 
   .schedule-item {
     @apply flex items-center gap-2 rounded-sm px-3 py-2;
-    background: #ffffff22;
+    background: #00000022;
   }
 
   .schedule-item span {
@@ -156,6 +156,6 @@
   }
 
   .schedule-item:nth-child(even) {
-    background: #ffffff10;
+    background: #00000010;
   }
 </style>

@@ -27,7 +27,7 @@
   }
 
   :global(.Box) {
-    @apply z-10 w-130 text-center relative mt-[-25%] bg-transparent! gap-11!;
+    @apply z-22 w-130 text-center relative mt-[-25%] bg-transparent! gap-11!;
   }
 
   .home-illustration {

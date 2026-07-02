@@ -60,6 +60,9 @@ a {
   grid-column-gap: 40px;
   /* gap: 20px; */
 }
+.columns > div.text > p:not(:last-child) {
+  padding-bottom: 1em;
+}
 
 @media (width < 540px) {
   .columns {

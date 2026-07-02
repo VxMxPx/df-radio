@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <Divider class="max-w-[10%]" />
+  <Divider short />
 
   <div class="team section">
     <div class="columns">

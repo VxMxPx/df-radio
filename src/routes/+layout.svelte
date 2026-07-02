@@ -20,10 +20,7 @@
   <title>{APP_NAME}</title>
 </svelte:head>
 
-<main
-  id="application"
-  class:has-topbar={!isHome}
-  class:is-homepage={isHome}>
+<main id="application" class:has-topbar={!isHome} class:is-homepage={isHome}>
   <Header currentPath={$page.url.pathname} />
   <div class="main-content">
     {@render children()}
@@ -52,7 +49,7 @@
     max-width: var(--w-page);
     min-height: 100%;
     margin: auto;
-    position: relative;
+    /* position: relative; */
     display: flex;
     flex-direction: column;
     padding-top: 0;

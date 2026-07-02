@@ -2,77 +2,105 @@
   import { Divider, Page } from '@app/components'
 </script>
 
-<Page title="About" elements={{ lines: true }}>
+<Page title="About" elements={{ lines: true, stars: true }}>
   <h2>About the Project</h2>
   <Divider />
 
   <div class="columns">
-    <p>
-      This signal is not mapped. It drifts, bends, and hides itself in the folds
-      of static. Like a lighthouse glimpsed through fog on an unfamiliar coast,
-      it does not explain — it only shines. You found it, and that is enough.
-      Stay, if you wish. The waves are waiting.
-    </p>
-    <p>
-      Here, the music is unclaimed, unbound — voices and instruments carried
-      from unknown hands, free of commerce, free of interruption. Calm currents,
-      flowing without anchor, designed not to sell or to distract, but to steady
-      and to open.
-    </p>
-    <p>
-      Sometimes other voices will break through: fragments of history, echoes of
-      philosophy, murmurs of psychology, whispers of spirit. They arrive as if
-      from another channel, stitched into this one, not to instruct but to alter
-      the air around you. Strange companions from parallel rooms of thought.
-    </p>
-    <p>
-      This broadcast is not fixed. It grows, mutates, folds in hidden patterns.
-      It is eccentric, calm, and deliberate, yet always unstable — always
-      becoming. A place between places. A refuge in static. A beacon on a shore
-      you cannot see.
-    </p>
+    <div class="text">
+      <p>
+        DarkForest.fm is an independent internet radio dedicated to quiet music,
+        thoughtful curation, and slower rhythms.
+      </p>
+      <p>
+        Every piece of music is selected by hand. There are no recommendation
+        algorithms deciding what comes next, no endless playlists generated for
+        engagement, and no race to keep you listening for as long as possible.
+      </p>
+    </div>
+    <div class="text">
+      <p>
+        The station explores ambient, neoclassical, drone, experimental, dark
+        jazz, post-rock, and other contemplative genres, creating an atmosphere
+        rather than simply broadcasting songs.
+      </p>
+      <p>
+        DarkForest.fm is an invitation to slow down. Whether you’re working,
+        reading, walking through nature, driving at night, or simply taking a
+        moment for yourself, the station is here to accompany rather than
+        interrupt.
+      </p>
+    </div>
   </div>
 
   <Divider wavey />
 
   <div class="team section">
-    <h3>Meet the Team</h3>
+    <h3>The Team</h3>
     <div class="columns">
-      <div class="flex flex-col gap-2">
+      <div class="text">
         <p>
-          Impedit minus dolorum aliquid nulla fuga nam, aperiam laudantium.
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Delectus
-          tenetur quis mollitia eveniet maiores fugit maxime reiciendis natus, a
-          illo. Ratione sequi assumenda enim dolor amet facere repellendus? Eos,
-          error!
+          DarkForest.fm is currently a one-person project. I’m Marko, a product
+          engineer and designer from Slovenia with a long-standing interest in
+          technology, psychology, music, and thoughtful digital experiences.
         </p>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-          laboriosam accusantium, pariatur maiores recusandae optio error ea
-          dolorem ipsa sint placeat ad dolor perferendis soluta nobis ex,
-          consequuntur totam quos?
+          This station brings those interests together. Every aspect of the
+          project—from the software and visual identity to licensing, artwork,
+          and music selection—is built and maintained independently.
+        </p>
+        <p>
+          Perhaps one day the project will grow into something larger. For now,
+          its small scale is one of its strengths. It allows every decision to
+          be intentional and every addition to have a reason for being.
         </p>
       </div>
-      <div class="flex gap-1">
-        <div class="flex flex-col gap-2">
+      <div class="text">
+        <p>
           <img
             class="block rounded-xs object-cover"
             src="/images/mdccc-cc.png"
             alt="" />
-          <p>
-            <strong>MDCCC</strong>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex debitis voluptatibus
-            magnam delectus maxime consequatur! Quod nesciunt perspiciatis sit, ipsam
-            asperiores laborum maiores, sed excepturi dicta assumenda ratione obcaecati
-            sequi.
-          </p>
-        </div>
+        </p>
       </div>
     </div>
   </div>
 
-  <div class="team section">
+  <Divider short />
+
+  <div class="mission section">
     <h3>Mission</h3>
-    <div class="columns"></div>
+    <div class="columns">
+      <div class="text">
+        <p>DarkForest.fm exists as an alternative.</p>
+
+        <p>
+          Today’s internet is remarkably good at capturing attention. Platforms
+          are designed to measure, predict, optimize, and compete for every
+          possible moment. They become places we consume almost automatically.
+        </p>
+
+        <p>This project follows a different philosophy.</p>
+      </div>
+
+      <div class="text">
+        <p>
+          It is hand-crafted, almost analogue in spirit. It values curation over
+          automation, presence over urgency, and participation over engagement
+          metrics.
+        </p>
+        <p>
+          Despite its name, a dark forest is not empty. It is alive with quiet
+          rhythms, hidden paths, small movements, and the possibility of
+          discovery. It asks nothing of you except that you enter with
+          curiosity.
+        </p>
+
+        <p>
+          Take what you need, stay for as long as you wish, and return whenever
+          the path leads you here again.
+        </p>
+      </div>
+    </div>
   </div>
 </Page>
