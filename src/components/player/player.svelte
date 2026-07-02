@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { STREAM } from '@app/constants'
   import { getPlayerAudio, playerState } from './player-state.svelte'
   import PlayerMetadataPopup from './player-metadata-popup.svelte'
-  import { stream, type StreamMeta } from './stream'
+  import { getStreamMeta, type NowPlaying, type StreamMeta } from './stream'
   import { Button, Icon, Loader } from '../'
 
   type PlayerState = 'normal' | 'topbar'
@@ -14,9 +15,12 @@
   let currentState = $derived(mode)
   let streamMetaRefresh: number | null = null
   let streamMetaAbortController: AbortController | null = null
+  let streamMetaSocket: WebSocket | null = null
+  let streamMetaReconnect: number | null = null
+  let streamMetaEnabled = false
 
   const setStreamMeta = () => {
-    playerState.streamMeta = stream.meta
+    playerState.streamMeta = STREAM.meta
   }
 
   const refreshStreamMeta = async () => {
@@ -44,22 +48,116 @@
     }
   }
 
-  const startStreamMetaRefresh = () => {
+  const startStreamMetaPolling = () => {
     void refreshStreamMeta()
 
     streamMetaRefresh ??= window.setInterval(() => {
       void refreshStreamMeta()
-    }, 60000)
+    }, 30000)
   }
 
-  const stopStreamMetaRefresh = () => {
-    if (streamMetaRefresh) {
+  const stopStreamMetaPolling = () => {
+    if (streamMetaRefresh !== null) {
       window.clearInterval(streamMetaRefresh)
       streamMetaRefresh = null
     }
 
     streamMetaAbortController?.abort()
     streamMetaAbortController = null
+  }
+
+  const startStreamMetaRefresh = () => {
+    streamMetaEnabled = true
+
+    if (streamMetaSocket?.readyState === WebSocket.OPEN) {
+      stopStreamMetaPolling()
+      return
+    }
+
+    startStreamMetaPolling()
+    connectStreamMetaSocket()
+  }
+
+  const handleNowPlaying = (nowPlaying?: NowPlaying) => {
+    if (!nowPlaying) return
+
+    const meta = getStreamMeta(nowPlaying)
+    if (meta) playerState.streamMeta = meta
+  }
+
+  const handleSocketMessage = (event: MessageEvent<string>) => {
+    try {
+      const message = JSON.parse(event.data) as {
+        connect?: {
+          data?: { data?: { np?: NowPlaying } }[]
+          subs?: Record<
+            string,
+            { publications?: { data?: { np?: NowPlaying } }[] }
+          >
+        }
+        pub?: { data?: { np?: NowPlaying } }
+      }
+
+      if (message.pub) handleNowPlaying(message.pub.data?.np)
+      message.connect?.data?.forEach(row => handleNowPlaying(row.data?.np))
+      Object.values(message.connect?.subs ?? {}).forEach(subscription => {
+        subscription.publications?.forEach(row =>
+          handleNowPlaying(row.data?.np),
+        )
+      })
+    } catch {
+      // Ignore malformed messages and keep the connection alive.
+    }
+  }
+
+  const connectStreamMetaSocket = () => {
+    if (
+      streamMetaSocket?.readyState === WebSocket.OPEN ||
+      streamMetaSocket?.readyState === WebSocket.CONNECTING
+    ) {
+      return
+    }
+
+    const socketUrl = new URL(STREAM.apiUrl)
+    socketUrl.protocol = socketUrl.protocol === 'https:' ? 'wss:' : 'ws:'
+    socketUrl.pathname = `${socketUrl.pathname.replace(/\/$/, '')}/live/nowplaying/websocket`
+    const socket = new WebSocket(socketUrl)
+    streamMetaSocket = socket
+
+    socket.addEventListener('open', () => {
+      stopStreamMetaPolling()
+      socket.send(
+        JSON.stringify({
+          subs: { [`station:${STREAM.station}`]: { recover: true } },
+        }),
+      )
+    })
+    socket.addEventListener('message', handleSocketMessage)
+    socket.addEventListener('close', () => {
+      if (streamMetaSocket === socket) streamMetaSocket = null
+      if (streamMetaEnabled) {
+        startStreamMetaPolling()
+      }
+      if (streamMetaEnabled && streamMetaReconnect === null) {
+        streamMetaReconnect = window.setTimeout(() => {
+          streamMetaReconnect = null
+          connectStreamMetaSocket()
+        }, 5000)
+      }
+    })
+    socket.addEventListener('error', () => socket.close())
+  }
+
+  const stopStreamMetaRefresh = () => {
+    streamMetaEnabled = false
+    stopStreamMetaPolling()
+    streamMetaSocket?.close()
+    streamMetaSocket = null
+
+    if (streamMetaReconnect !== null) {
+      window.clearTimeout(streamMetaReconnect)
+      streamMetaReconnect = null
+    }
   }
 
   const clickDisc = async () => {
@@ -82,7 +180,7 @@
       }
 
       if (!audio.src) {
-        audio.src = stream.url
+        audio.src = STREAM.url
       }
 
       await audio.play()
@@ -222,7 +320,7 @@
       onclick={clickDisc}
       onpointerdown={event => event.stopPropagation()}
       class={`Disc overflow-hidden relative shrink-0 w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
-      aria-label={`${playerState.streamMeta ? 'Show details for' : 'Play'} ${stream.name}`}
+      aria-label={`${playerState.streamMeta ? 'Show details for' : 'Play'} ${STREAM.name}`}
       aria-expanded={playerState.streamMeta ? isStreamPopupOpen : undefined}>
       <div
         class="absolute overflow-hidden top-0 left-0 w-full h-full flex items-center justify-center">
@@ -236,7 +334,7 @@
 
     {#if playerState.streamMeta}
       <PlayerMetadataPopup
-        label={`${stream.name} details`}
+        label={`${STREAM.name} details`}
         meta={playerState.streamMeta}
         onOutsideClick={() => (isStreamPopupOpen = false)}
         open={isStreamPopupOpen}
@@ -279,7 +377,7 @@
     variant={playerState.isPlaying || playerState.isLoading
       ? 'default'
       : 'accent'}
-    aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${stream.name}`}>
+    aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${STREAM.name}`}>
     {#if playerState.isLoading}
       <Loader class="opacity-90" size={16} />
     {:else}
@@ -291,7 +389,7 @@
   <Button
     onclick={toggleMuted}
     class="w-10 h-10"
-    aria-label={`${playerState.isMuted ? 'Unmute' : 'Mute'} ${stream.name}`}
+    aria-label={`${playerState.isMuted ? 'Unmute' : 'Mute'} ${STREAM.name}`}
     aria-pressed={playerState.isMuted}>
     <Icon
       name={playerState.isMuted ? 'Mute' : 'Volume'}
@@ -307,12 +405,12 @@
   .Player {
     --route-motion-duration: 340ms;
     --route-motion-easing: ease;
-    @apply flex w-full items-center gap-3 justify-between;
+    @apply flex flex-wrap w-full items-center gap-3 justify-between;
   }
 
   .Player.topbar {
     @apply bg-black/40 flex p-4! backdrop-blur-sm! fixed
-    top-0 left-0 z-10 w-full border-b-white/15 border-b
+    top-0 left-0 z-22 w-full border-b-white/15 border-b
     shadow-[inset_0_-6px_10px_rgba(0,0,0,0.2)];
     animation: topbar-arrive var(--route-motion-duration)
       var(--route-motion-easing) both;

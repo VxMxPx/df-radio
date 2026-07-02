@@ -59,6 +59,28 @@
 
     return 'Url'
   }
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60)
+    return `${minutes}:${Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, '0')}`
+  }
+
+  let now = $state(Date.now())
+  let elapsed = $derived(
+    Math.min(
+      meta.duration ?? Infinity,
+      (meta.elapsed ?? 0) +
+        Math.max(0, Math.floor((now - (meta.receivedAt ?? now)) / 1000)),
+    ),
+  )
+
+  $effect(() => {
+    if (!open || meta.duration === undefined) return
+    const timer = window.setInterval(() => (now = Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  })
 </script>
 
 <Popup class="flex flex-col gap-2" {label} {onOutsideClick} {open} {placement}>
@@ -78,6 +100,19 @@
     </strong>
     {#if meta.album}
       <small class="album">{meta.album}</small>
+    {/if}
+    {#if meta.duration !== undefined}
+      <small class="album"
+        >{formatTime(elapsed)} / {formatTime(meta.duration)}</small>
+    {/if}
+    {#if meta.genre}<small class="album">Genre: {meta.genre}</small>{/if}
+    {#if meta.isLive}<small class="album"
+        >Live{meta.streamer ? ` with ${meta.streamer}` : ''}</small
+      >{/if}
+    {#if meta.listeners !== undefined}
+      <small class="album"
+        >{meta.listeners}
+        {meta.listeners === 1 ? 'listener' : 'listeners'}</small>
     {/if}
   </div>
 
