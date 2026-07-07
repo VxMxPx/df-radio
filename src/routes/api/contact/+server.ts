@@ -34,8 +34,7 @@ const getClientIp = (headers: Headers, getClientAddress: () => string) =>
 
 const getClientGeo = (headers: Headers) => ({
   city:
-    getHeader(headers, 'cf-ipcity') ||
-    getHeader(headers, 'x-vercel-ip-city'),
+    getHeader(headers, 'cf-ipcity') || getHeader(headers, 'x-vercel-ip-city'),
   country:
     getHeader(headers, 'cf-ipcountry') ||
     getHeader(headers, 'x-vercel-ip-country'),
@@ -66,15 +65,28 @@ const getMetadataString = (value: unknown) => {
   return ''
 }
 
-export const POST: RequestHandler = async ({ getClientAddress, request }) => {
-  const apiKey = env.RESEND_API_KEY
-  const to = env.CONTACT_TO_EMAIL
-  const from = env.CONTACT_FROM_EMAIL
+export const POST: RequestHandler = async ({
+  getClientAddress,
+  platform,
+  request,
+}) => {
+  const runtimeEnv = platform?.env as
+    | Record<string, string | undefined>
+    | undefined
+  const apiKey = runtimeEnv?.RESEND_API_KEY || env.RESEND_API_KEY
+  const to = runtimeEnv?.CONTACT_TO_EMAIL || env.CONTACT_TO_EMAIL
+  const from = runtimeEnv?.CONTACT_FROM_EMAIL || env.CONTACT_FROM_EMAIL
 
   if (!apiKey || !to || !from) {
+    const missing = [
+      !apiKey && 'RESEND_API_KEY',
+      !to && 'CONTACT_TO_EMAIL',
+      !from && 'CONTACT_FROM_EMAIL',
+    ].filter(Boolean)
+
     return json(
       {
-        error: 'Email is not configured.',
+        error: `Email is not configured. Missing: ${missing.join(', ')}.`,
       },
       { status: 500 },
     )
