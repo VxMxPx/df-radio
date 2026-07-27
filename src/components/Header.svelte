@@ -14,6 +14,7 @@
     { url: '/', title: 'Home' },
     { url: '/about', title: 'About' },
     { url: '/program', title: 'Program' },
+    { url: '/shows', title: 'Shows' },
     { url: '/contact', title: 'Contact' },
   ]
 
@@ -60,7 +61,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    z-index: 20;
+    z-index: 25;
   }
   header h1 {
     color: var(--color-fg);

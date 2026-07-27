@@ -59,7 +59,7 @@
         <p>
           <img
             class="block rounded-xs object-cover"
-            src="/images/mdccc-cc.png"
+            src="/images/mdccc-cc.jpg"
             alt="" />
         </p>
       </div>
