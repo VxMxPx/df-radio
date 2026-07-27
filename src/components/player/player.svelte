@@ -2,8 +2,8 @@
   import { onMount } from 'svelte'
   import { STREAM } from '@app/constants'
   import { getPlayerAudio, playerState } from './player-state.svelte'
+  import { createPlayerMetadata } from './player-metadata'
   import PlayerMetadataPopup from './player-metadata-popup.svelte'
-  import { getStreamMeta, type NowPlaying, type StreamMeta } from './stream'
   import { Button, Icon, Loader } from '../'
 
   type PlayerState = 'normal' | 'topbar'
@@ -12,152 +12,16 @@
   let audio = $state<HTMLAudioElement | null>(null)
   let isReady = $state(false)
   let isStreamPopupOpen = $state(false)
-  let currentState = $derived(mode)
-  let streamMetaRefresh: number | null = null
-  let streamMetaAbortController: AbortController | null = null
-  let streamMetaSocket: WebSocket | null = null
-  let streamMetaReconnect: number | null = null
-  let streamMetaEnabled = false
+  let isCompact = $state(false)
+  let currentState = $derived(
+    mode === 'topbar' || isCompact ? 'topbar' : 'normal',
+  )
+  const streamMetadata = createPlayerMetadata()
 
-  const setStreamMeta = () => {
-    playerState.streamMeta = STREAM.meta
-  }
-
-  const refreshStreamMeta = async () => {
-    streamMetaAbortController?.abort()
-    streamMetaAbortController = new AbortController()
-
-    try {
-      const response = await fetch('/api/stream-meta', {
-        signal: streamMetaAbortController.signal,
-      })
-
-      if (!response.ok) {
-        return
-      }
-
-      const { meta } = (await response.json()) as { meta?: StreamMeta }
-
-      if (meta?.title) {
-        playerState.streamMeta = meta
-      }
-    } catch (error) {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        return
-      }
-    }
-  }
-
-  const startStreamMetaPolling = () => {
-    void refreshStreamMeta()
-
-    streamMetaRefresh ??= window.setInterval(() => {
-      void refreshStreamMeta()
-    }, 30000)
-  }
-
-  const stopStreamMetaPolling = () => {
-    if (streamMetaRefresh !== null) {
-      window.clearInterval(streamMetaRefresh)
-      streamMetaRefresh = null
-    }
-
-    streamMetaAbortController?.abort()
-    streamMetaAbortController = null
-  }
-
-  const startStreamMetaRefresh = () => {
-    streamMetaEnabled = true
-
-    if (streamMetaSocket?.readyState === WebSocket.OPEN) {
-      stopStreamMetaPolling()
-      return
-    }
-
-    startStreamMetaPolling()
-    connectStreamMetaSocket()
-  }
-
-  const handleNowPlaying = (nowPlaying?: NowPlaying) => {
-    if (!nowPlaying) return
-
-    const meta = getStreamMeta(nowPlaying)
-    if (meta) playerState.streamMeta = meta
-  }
-
-  const handleSocketMessage = (event: MessageEvent<string>) => {
-    try {
-      const message = JSON.parse(event.data) as {
-        connect?: {
-          data?: { data?: { np?: NowPlaying } }[]
-          subs?: Record<
-            string,
-            { publications?: { data?: { np?: NowPlaying } }[] }
-          >
-        }
-        pub?: { data?: { np?: NowPlaying } }
-      }
-
-      if (message.pub) handleNowPlaying(message.pub.data?.np)
-      message.connect?.data?.forEach(row => handleNowPlaying(row.data?.np))
-      Object.values(message.connect?.subs ?? {}).forEach(subscription => {
-        subscription.publications?.forEach(row =>
-          handleNowPlaying(row.data?.np),
-        )
-      })
-    } catch {
-      // Ignore malformed messages and keep the connection alive.
-    }
-  }
-
-  const connectStreamMetaSocket = () => {
-    if (
-      streamMetaSocket?.readyState === WebSocket.OPEN ||
-      streamMetaSocket?.readyState === WebSocket.CONNECTING
-    ) {
-      return
-    }
-
-    const socketUrl = new URL(STREAM.apiUrl)
-    socketUrl.protocol = socketUrl.protocol === 'https:' ? 'wss:' : 'ws:'
-    socketUrl.pathname = `${socketUrl.pathname.replace(/\/$/, '')}/live/nowplaying/websocket`
-    const socket = new WebSocket(socketUrl)
-    streamMetaSocket = socket
-
-    socket.addEventListener('open', () => {
-      stopStreamMetaPolling()
-      socket.send(
-        JSON.stringify({
-          subs: { [`station:${STREAM.station}`]: { recover: true } },
-        }),
-      )
-    })
-    socket.addEventListener('message', handleSocketMessage)
-    socket.addEventListener('close', () => {
-      if (streamMetaSocket === socket) streamMetaSocket = null
-      if (streamMetaEnabled) {
-        startStreamMetaPolling()
-      }
-      if (streamMetaEnabled && streamMetaReconnect === null) {
-        streamMetaReconnect = window.setTimeout(() => {
-          streamMetaReconnect = null
-          connectStreamMetaSocket()
-        }, 5000)
-      }
-    })
-    socket.addEventListener('error', () => socket.close())
-  }
-
-  const stopStreamMetaRefresh = () => {
-    streamMetaEnabled = false
-    stopStreamMetaPolling()
-    streamMetaSocket?.close()
-    streamMetaSocket = null
-
-    if (streamMetaReconnect !== null) {
-      window.clearTimeout(streamMetaReconnect)
-      streamMetaReconnect = null
-    }
+  const unloadStream = () => {
+    audio?.pause()
+    audio?.removeAttribute('src')
+    audio?.load()
   }
 
   const clickDisc = async () => {
@@ -184,15 +48,25 @@
       }
 
       await audio.play()
-      setStreamMeta()
-      startStreamMetaRefresh()
+      streamMetadata.setDefault()
+      streamMetadata.start()
       playerState.isPlaying = true
     } catch {
+      unloadStream()
+      streamMetadata.stop()
+      playerState.streamMeta = null
       playerState.error = 'Stream unavailable'
       playerState.isPlaying = false
+      setErrorCleanup()
     } finally {
       playerState.isLoading = false
     }
+  }
+
+  const setErrorCleanup = () => {
+    setTimeout(() => {
+      playerState.error = ''
+    }, 5000)
   }
 
   const stopStream = () => {
@@ -202,10 +76,8 @@
 
     playerState.isStopping = true
     playerState.error = ''
-    audio.pause()
-    audio.removeAttribute('src')
-    audio.load()
-    stopStreamMetaRefresh()
+    unloadStream()
+    streamMetadata.stop()
     playerState.streamMeta = null
     isStreamPopupOpen = false
     playerState.isPlaying = false
@@ -236,6 +108,13 @@
   }
 
   onMount(() => {
+    const compactQuery = window.matchMedia('(width < 420px)')
+    const updateCompactMode = () => {
+      isCompact = compactQuery.matches
+    }
+
+    updateCompactMode()
+    compactQuery.addEventListener('change', updateCompactMode)
     window.addEventListener('keydown', keydown)
     audio = getPlayerAudio()
     const readyFrame = window.requestAnimationFrame(() => {
@@ -245,6 +124,7 @@
     if (!audio) {
       return () => {
         window.cancelAnimationFrame(readyFrame)
+        compactQuery.removeEventListener('change', updateCompactMode)
         window.removeEventListener('keydown', keydown)
       }
     }
@@ -253,13 +133,13 @@
       playerState.isPlaying = true
       playerState.isLoading = false
       playerState.error = ''
-      setStreamMeta()
-      startStreamMetaRefresh()
+      streamMetadata.setDefault()
+      streamMetadata.start()
     }
     const pause = () => {
       playerState.isPlaying = false
       playerState.isLoading = false
-      stopStreamMetaRefresh()
+      streamMetadata.stop()
     }
     const waiting = () => {
       playerState.isLoading = true
@@ -277,14 +157,15 @@
     }
 
     audio.muted = playerState.isMuted
-    playerState.isPlaying = !audio.paused && !audio.ended
+    playerState.isPlaying =
+      Boolean(audio.src) && !audio.paused && !audio.ended && !audio.error
 
     if (playerState.isPlaying && !playerState.streamMeta) {
-      setStreamMeta()
+      streamMetadata.setDefault()
     }
 
     if (playerState.isPlaying) {
-      startStreamMetaRefresh()
+      streamMetadata.start()
     }
 
     audio.addEventListener('playing', playing)
@@ -294,12 +175,13 @@
 
     return () => {
       window.cancelAnimationFrame(readyFrame)
+      compactQuery.removeEventListener('change', updateCompactMode)
       window.removeEventListener('keydown', keydown)
       audio?.removeEventListener('playing', playing)
       audio?.removeEventListener('pause', pause)
       audio?.removeEventListener('waiting', waiting)
       audio?.removeEventListener('error', error)
-      stopStreamMetaRefresh()
+      streamMetadata.stop()
     }
   })
 
