@@ -8,9 +8,9 @@
   const { wavey = false, short, class: classes = '' }: Props = $props()
 </script>
 
-<div class={`ui Divider ${classes} ${short && 'max-w-[10%]'}`} class:wavey>
+<div class={`ui Divider ${classes}`} class:short class:wavey>
   {#if wavey}
-    <img src="/images/divider-wave.svg" alt="" />
+    <img src="/divider-wave.svg" alt="" />
   {/if}
 </div>
 
@@ -21,6 +21,10 @@
 
   .Divider img {
     max-width: 100%;
+  }
+
+  .Divider.short {
+    max-width: 10%;
   }
 
   .Divider:not(.wavey) {

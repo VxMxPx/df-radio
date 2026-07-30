@@ -34,11 +34,11 @@
 
 <style>
   :global(html) {
-    background: url('/images/background-noise.png') repeat;
+    background: url('/background-noise.png') repeat;
   }
 
   :global(body) {
-    background-image: url('/images/top-cutout.svg');
+    background-image: url('/top-cutout.svg');
     background-position: top left;
     background-repeat: no-repeat;
   }
@@ -71,7 +71,7 @@
   }
 
   :global(body)::after {
-    background: url('/images/top-sun.svg');
+    background: url('/top-sun.svg');
     background-repeat: no-repeat;
     background-size: 100%;
     height: 160px;

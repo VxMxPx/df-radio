@@ -27,7 +27,7 @@
     <h1>
       <img src={logotypeUrl} alt="" />
       <span>
-        <span>{appName[0]}</span><span class="opacity-50">.{appName[1]}</span>
+        <span>{appName[0]}</span><span class="domain-suffix">.{appName[1]}</span>
       </span>
     </h1>
   </a>
@@ -46,7 +46,7 @@
       aria-controls="main-nav"
       aria-expanded={isNavOpen}
       aria-label="Toggle navigation"
-      class="w-8 h-8"
+      class="mobile-nav-control"
       onclick={() => (isNavOpen = !isNavOpen)}>
       <Icon name="Menu" size={20} />
     </Button>
@@ -77,6 +77,13 @@
   }
   header a {
     text-decoration: none;
+  }
+  .domain-suffix {
+    opacity: 0.5;
+  }
+  :global(.mobile-nav-control) {
+    width: 2rem;
+    height: 2rem;
   }
   nav {
     --nav-gap: 8px;

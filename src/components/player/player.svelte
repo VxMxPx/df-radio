@@ -8,23 +8,28 @@
 
   type PlayerState = 'normal' | 'topbar'
 
+  //
+  // state
+  //
   let { mode = 'normal' }: { mode?: PlayerState } = $props()
   let audio = $state<HTMLAudioElement | null>(null)
   let isReady = $state(false)
   let isStreamPopupOpen = $state(false)
-  let isCompact = $state(false)
-  let currentState = $derived(
-    mode === 'topbar' || isCompact ? 'topbar' : 'normal',
-  )
   const streamMetadata = createPlayerMetadata()
 
+  //
+  // unloads stream on error or when stopped
+  //
   const unloadStream = () => {
     audio?.pause()
     audio?.removeAttribute('src')
     audio?.load()
   }
 
-  const clickDisc = async () => {
+  //
+  // clicking disk displays metadata details
+  //
+  const handleShowMetadata = async () => {
     if (!playerState.streamMeta) {
       await playStream()
       return
@@ -32,6 +37,9 @@
     isStreamPopupOpen = !isStreamPopupOpen
   }
 
+  //
+  // start the stream playing
+  //
   const playStream = async () => {
     playerState.error = ''
     playerState.isLoading = true
@@ -63,12 +71,18 @@
     }
   }
 
+  //
+  // clear error after couple of seconds
+  //
   const setErrorCleanup = () => {
     setTimeout(() => {
       playerState.error = ''
     }, 5000)
   }
 
+  //
+  // handle stopping the stream
+  //
   const stopStream = () => {
     if (!audio) {
       return
@@ -88,19 +102,27 @@
     }, 0)
   }
 
+  //
+  // toggles play/stop state of the stream
+  //
   const togglePlaying = async () => {
     if (playerState.isPlaying || playerState.isLoading) {
       stopStream()
       return
     }
-
     await playStream()
   }
 
+  //
+  // toggles muted state
+  //
   const toggleMuted = () => {
     playerState.isMuted = !playerState.isMuted
   }
 
+  //
+  // hide details on esc
+  //
   const keydown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       isStreamPopupOpen = false
@@ -108,13 +130,6 @@
   }
 
   onMount(() => {
-    const compactQuery = window.matchMedia('(width < 420px)')
-    const updateCompactMode = () => {
-      isCompact = compactQuery.matches
-    }
-
-    updateCompactMode()
-    compactQuery.addEventListener('change', updateCompactMode)
     window.addEventListener('keydown', keydown)
     audio = getPlayerAudio()
     const readyFrame = window.requestAnimationFrame(() => {
@@ -124,7 +139,6 @@
     if (!audio) {
       return () => {
         window.cancelAnimationFrame(readyFrame)
-        compactQuery.removeEventListener('change', updateCompactMode)
         window.removeEventListener('keydown', keydown)
       }
     }
@@ -150,7 +164,6 @@
         playerState.isLoading = false
         return
       }
-
       playerState.error = 'Stream unavailable'
       playerState.isPlaying = false
       playerState.isLoading = false
@@ -175,7 +188,6 @@
 
     return () => {
       window.cancelAnimationFrame(readyFrame)
-      compactQuery.removeEventListener('change', updateCompactMode)
       window.removeEventListener('keydown', keydown)
       audio?.removeEventListener('playing', playing)
       audio?.removeEventListener('pause', pause)
@@ -192,24 +204,21 @@
   })
 </script>
 
-<div
-  class="Player"
-  class:ready={isReady}
-  class:topbar={currentState === 'topbar'}>
+<div class="Player" class:ready={isReady} class:topbar={mode === 'topbar'}>
   <div class="metadata" class:visible={playerState.streamMeta}>
     <!-- Disc / Album Art -->
     <Button
-      onclick={clickDisc}
-      onpointerdown={event => event.stopPropagation()}
-      class={`Disc overflow-hidden relative shrink-0 w-10 h-10 ${playerState.isPlaying ? 'playing' : ''}`}
+      onclick={handleShowMetadata}
+      onpointerdown={(event) => event.stopPropagation()}
+      class={`Disc ${playerState.isPlaying ? 'playing' : ''}`}
       aria-label={`${playerState.streamMeta ? 'Show details for' : 'Play'} ${STREAM.name}`}
-      aria-expanded={playerState.streamMeta ? isStreamPopupOpen : undefined}>
-      <div
-        class="absolute overflow-hidden top-0 left-0 w-full h-full flex items-center justify-center">
-        <Icon class="z-10 player" name="Play" size={16} color="#ffffff" />
-        <Icon class="z-10 record" name="Disc" size={22} color="#ffffff" />
+      aria-expanded={playerState.streamMeta ? isStreamPopupOpen : undefined}
+    >
+      <div class="Disc__content">
+        <Icon class="player" name="Play" size={16} color="#ffffff" />
+        <Icon class="record" name="Disc" size={22} color="#ffffff" />
         {#if playerState.streamMeta?.cover}
-          <img class="absolute z-0" src={playerState.streamMeta.cover} alt="" />
+          <img src={playerState.streamMeta.cover} alt="" />
         {/if}
       </div>
     </Button>
@@ -220,22 +229,24 @@
         meta={playerState.streamMeta}
         onOutsideClick={() => (isStreamPopupOpen = false)}
         open={isStreamPopupOpen}
-        placement={currentState === 'topbar' ? 'bottom' : 'top'} />
+        placement={mode === 'topbar' ? 'bottom' : 'top'}
+      />
     {/if}
 
     <div
       class="details"
       class:visible={playerState.streamMeta}
-      aria-hidden={!playerState.streamMeta}>
-      <div class="flex gap-1">
+      aria-hidden={!playerState.streamMeta}
+    >
+      <div class="track-title">
         <span>{playerState.streamMeta?.title}</span>
         {#if playerState.streamMeta?.artist}
-          <span class="opacity-50">by</span>
+          <span class="by">by</span>
           <span>{playerState.streamMeta.artist}</span>
         {/if}
       </div>
       {#if playerState.streamMeta?.urls?.length}
-        <small class="flex">
+        <small class="track-link">
           <a href={playerState.streamMeta.urls[0].url}>
             {playerState.streamMeta.artist} on
             {playerState.streamMeta.urls[0].label ||
@@ -255,13 +266,14 @@
   <!-- Toggle Play / Stop -->
   <Button
     onclick={togglePlaying}
-    class="PlayToggle h-10 px-4! gap-2"
+    class="PlayToggle"
     variant={playerState.isPlaying || playerState.isLoading
       ? 'default'
       : 'accent'}
-    aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${STREAM.name}`}>
+    aria-label={`${playerState.isPlaying ? 'Stop' : 'Play'} ${STREAM.name}`}
+  >
     {#if playerState.isLoading}
-      <Loader class="opacity-90" size={16} />
+      <Loader class="PlayToggle__loader" size={16} />
     {:else}
       {playerState.isPlaying ? 'Stop' : 'Play'}
     {/if}
@@ -270,30 +282,43 @@
   <!-- Toggle Mute -->
   <Button
     onclick={toggleMuted}
-    class="w-10 h-10"
+    class="MuteToggle"
     aria-label={`${playerState.isMuted ? 'Unmute' : 'Mute'} ${STREAM.name}`}
-    aria-pressed={playerState.isMuted}>
+    aria-pressed={playerState.isMuted}
+  >
     <Icon
       name={playerState.isMuted ? 'Mute' : 'Volume'}
       size={16}
       color="#ffffff"
-      class="opacity-75" />
+      class="MuteToggle__icon"
+    />
   </Button>
 </div>
 
 <style>
-  @reference 'tailwindcss';
-
   .Player {
     --route-motion-duration: 340ms;
     --route-motion-easing: ease;
-    @apply flex flex-wrap w-full items-center gap-3 justify-between;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
   }
 
   .Player.topbar {
-    @apply bg-black/40 flex p-4! backdrop-blur-sm! fixed
-    top-0 left-0 z-22 w-full border-b-white/15 border-b
-    shadow-[inset_0_-6px_10px_rgba(0,0,0,0.2)];
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 22;
+    display: flex;
+    width: 100%;
+    padding: 1rem !important;
+    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+    background: rgb(0 0 0 / 0.4);
+    box-shadow: inset 0 -6px 10px rgb(0 0 0 / 0.2);
+    backdrop-filter: blur(4px) !important;
     animation: topbar-arrive var(--route-motion-duration)
       var(--route-motion-easing) both;
   }
@@ -356,11 +381,50 @@
   :global(.PlayToggle) {
     min-width: 80px;
     overflow: hidden;
+    height: 2.5rem;
+    padding: 0 1rem !important;
+    gap: 0.5rem;
+  }
+
+  :global(.PlayToggle__loader) {
+    opacity: 0.9;
+  }
+
+  :global(.MuteToggle) {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  :global(.MuteToggle__icon) {
+    opacity: 0.75;
   }
 
   /* Disc */
+  :global(.Disc) {
+    position: relative;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    overflow: hidden;
+  }
+  .Disc__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .Disc__content img {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   :global(.Disc .Icon.player) {
     position: absolute;
+    z-index: 10;
     opacity: 0.75;
     transition: opacity 0.5s ease;
   }
@@ -369,6 +433,7 @@
   }
   :global(.Disc .Icon.record) {
     position: relative;
+    z-index: 10;
     margin-top: 52px;
     transition: all 0.5s ease;
     opacity: 0;
@@ -377,6 +442,19 @@
     margin-top: 0;
     animation: disc-spin 1800ms linear infinite;
     opacity: 1;
+  }
+
+  .track-title,
+  .track-link {
+    display: flex;
+  }
+
+  .track-title {
+    gap: 0.25rem;
+  }
+
+  .by {
+    opacity: 0.5;
   }
 
   @keyframes disc-spin {

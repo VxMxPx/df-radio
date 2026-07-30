@@ -22,10 +22,10 @@
 </script>
 
 <div
-  class={`ui Message flex items-center justify-center state-${state} ${classes}`}
+  class={`ui Message state-${state} ${classes}`}
   aria-hidden={state === 'inactive'}
   {...props}>
-  <div class="content flex flex-col gap-1 items-center">
+  <div class="content">
     <span>
       {#if state === 'working'}
         <Loader />
@@ -47,10 +47,10 @@
     {/if}
 
     {#if state === 'error'}
-      <Button class="mt-2!" onclick={onDismiss}>Understood</Button>
+      <Button class="Message__dismiss" onclick={onDismiss}>Understood</Button>
     {/if}
     {#if state === 'success'}
-      <Button class="mt-2!" onclick={onDismiss}>Okay</Button>
+      <Button class="Message__dismiss" onclick={onDismiss}>Okay</Button>
     {/if}
   </div>
 </div>
@@ -73,6 +73,9 @@
     text-align: center;
     pointer-events: none;
     transition: background-color 0.8s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .ui.Message.state-success {
     background-color: rgba(72, 107, 97, 0.95);
@@ -87,12 +90,20 @@
   }
 
   .ui.Message .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
     opacity: 0;
     transition: opacity 0.5s ease;
   }
   .ui.Message:not(.state-inactive) .content {
     transition-delay: var(--main-transition-length);
     opacity: 1;
+  }
+
+  :global(.Message__dismiss) {
+    margin-top: 0.5rem !important;
   }
 
   @keyframes working-form {

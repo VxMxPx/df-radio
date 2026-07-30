@@ -30,14 +30,16 @@
 </details>
 
 <style>
-  @reference 'tailwindcss';
-
   .Accordion {
-    @apply bg-[rgb(0,0,0,0.25)] rounded-lg;
+    border-radius: 0.5rem;
+    background: rgb(0 0 0 / 0.25);
   }
 
   .Accordion__summary {
-    @apply flex items-center gap-3 p-2;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
     cursor: pointer;
     list-style: none;
   }
@@ -47,7 +49,9 @@
   }
 
   .Accordion__icon {
-    @apply inline-flex items-center justify-center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 150ms ease-out;
   }
 
@@ -56,7 +60,10 @@
   }
 
   .Accordion__content {
-    @apply px-4 pb-4 flex flex-col gap-2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem 1rem;
   }
 
   @media (prefers-reduced-motion: reduce) {

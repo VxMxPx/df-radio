@@ -23,7 +23,7 @@
   <h2>Contact</h2>
   <Divider />
   <div class="columns">
-    <div class="basis-0 grow min-w-0 flex flex-col gap-4">
+    <div class="contact-column">
       <p>
         DarkForest.fm is still young, and many of its paths remain unexplored.
       </p>
@@ -33,29 +33,29 @@
         what this place may become.
       </p>
       <p>And who knows what might emerge from a simple knock at the gate.</p>
-      <div class="socials flex flex-col gap-2">
+      <div class="socials">
         <strong>Find Us Elsewhere</strong>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="socials__list">
           {#each socials as item}
             <a
               href={item.link}
               target="_blank"
-              class="cursor-pointer p-2! rounded-sm grow flex gap-2 items-center hover:bg-black/20">
+              class="socials__link">
               <Icon
                 name={item.icon}
-                class="shrink-0"
+                class="socials__icon"
                 color="#ffffff"
                 size={24} />
-              <span class="flex flex-col">
-                <span class="leading-[1em]">{item.name}</span>
-                <small class="opacity-50">{item.handle}</small>
+              <span class="socials__label">
+                <span class="socials__name">{item.name}</span>
+                <small class="socials__handle">{item.handle}</small>
               </span>
             </a>
           {/each}
         </div>
       </div>
     </div>
-    <div class="basis-0 grow min-w-0">
+    <div class="contact-column">
       <ContactForm />
     </div>
   </div>
@@ -64,7 +64,7 @@
 
   <div class="team section">
     <div class="columns">
-      <div class="basis-0 grow min-w-0 flex flex-col gap-4">
+      <div class="contact-column">
         <h3>Donate</h3>
         <p>
           Your support helps maintain the infrastructure behind Dark Forest FM
@@ -74,7 +74,7 @@
         <p>
           If you decide to contribute, know that you have our sincere gratitude.
         </p>
-        <small class="opacity-75">
+        <small class="donation-note">
           Support is processed securely through Stripe’s payment platform.
         </small>
         <div>
@@ -86,9 +86,9 @@
           </Button>
         </div>
       </div>
-      <div class="basis-0 grow min-w-0 flex flex-col gap-4">
+      <div class="contact-column">
         <h3>FAQ</h3>
-        <div class="flex flex-col gap-2">
+        <div class="faq-list">
           {#each faq as item}
             <Accordion title={item.title}>
               {@html item.body}
@@ -99,3 +99,62 @@
     </div>
   </div>
 </Page>
+
+<style>
+  .contact-column {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1rem;
+  }
+
+  .socials,
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .socials__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .socials__link {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem !important;
+    border-radius: 0.125rem;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .socials__link:hover {
+    background: rgb(0 0 0 / 0.2);
+  }
+
+  :global(.socials__icon) {
+    flex-shrink: 0;
+  }
+
+  .socials__label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .socials__name {
+    line-height: 1;
+  }
+
+  .socials__handle {
+    opacity: 0.5;
+  }
+
+  .donation-note {
+    opacity: 0.75;
+  }
+</style>

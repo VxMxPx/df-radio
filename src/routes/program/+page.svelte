@@ -115,10 +115,10 @@
     </p>
   </div>
   <Divider short />
-  <div class="flex flex-wrap gap-2">
+  <div class="day-selector">
     {#each buttons as item}
       <Button
-        class="min-w-14"
+        class="day-selector__button"
         variant={selectedTimestamp === item.timestamp ? 'pressed' : 'default'}
         aria-pressed={selectedTimestamp === item.timestamp}
         onclick={() => (selectedTimestamp = item.timestamp)}>
@@ -126,7 +126,7 @@
       </Button>
     {/each}
   </div>
-  <div class="schedule flex flex-wrap gap-2">
+  <div class="schedule">
     {#each scheduleSlots as item, index}
       <div class={`schedule-item schedule-item-${index}`}>
         <span
@@ -140,22 +140,39 @@
 </Page>
 
 <style>
-  @reference 'tailwindcss';
-
   .schedule-item {
-    @apply flex items-center gap-2 rounded-sm px-3 py-2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.125rem;
     background: #00000022;
   }
 
   .schedule-item span {
-    @apply shrink-0 opacity-75;
+    flex-shrink: 0;
+    opacity: 0.75;
   }
 
   .schedule-item strong {
-    @apply min-w-0 truncate;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .schedule-item:nth-child(even) {
     background: #00000010;
+  }
+
+  .day-selector,
+  .schedule {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  :global(.day-selector__button) {
+    min-width: 3.5rem;
   }
 </style>

@@ -31,7 +31,7 @@
   .lines-1 {
     width: 134px;
     height: 56px;
-    background: url('/images/lines-right-2.svg') no-repeat;
+    background: url('/lines-right-2.svg') no-repeat;
     background-size: 100%;
     right: 0;
     top: 40%;
@@ -45,7 +45,7 @@
   .lines-2 {
     width: 210px;
     height: 130px;
-    background: url('/images/lines-right-1.svg') no-repeat;
+    background: url('/lines-right-1.svg') no-repeat;
     background-size: 100%;
     right: -20px;
     top: 20%;
@@ -59,7 +59,7 @@
   .lines-3 {
     width: 210px;
     height: 154px;
-    background: url('/images/lines-left-1.svg') no-repeat;
+    background: url('/lines-left-1.svg') no-repeat;
     background-size: 100%;
     left: -20px;
     top: 277px;

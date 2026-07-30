@@ -48,12 +48,18 @@
 {/if}
 
 <style>
-  @reference 'tailwindcss';
-
   .Popup {
-    @apply absolute left-0 z-1000
-      w-[min(320px,calc(100vw-32px))] overflow-auto rounded-lg border
-      border-white/15 bg-black/90 p-3 shadow-2xl backdrop-blur-md;
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    width: min(320px, calc(100vw - 32px));
+    overflow: auto;
+    padding: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.15);
+    border-radius: 0.5rem;
+    background: rgb(0 0 0 / 0.9);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    backdrop-filter: blur(12px);
     white-space: normal;
     overflow: hidden;
     animation: popup-arrive 160ms ease-out both;

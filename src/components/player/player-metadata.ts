@@ -1,4 +1,5 @@
 import { STREAM } from '@app/constants'
+import { apiUrl } from '@app/lib/api'
 import { playerState } from './player-state.svelte'
 import { getStreamMeta, type NowPlaying, type StreamMeta } from './stream'
 
@@ -21,7 +22,7 @@ export const createPlayerMetadata = () => {
     abortController = new AbortController()
 
     try {
-      const response = await fetch('/api/stream-meta', {
+      const response = await fetch(apiUrl('/api/stream-meta'), {
         signal: abortController.signal,
       })
 

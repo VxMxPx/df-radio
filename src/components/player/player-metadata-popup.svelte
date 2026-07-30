@@ -83,7 +83,7 @@
   })
 </script>
 
-<Popup class="flex flex-col gap-2" {label} {onOutsideClick} {open} {placement}>
+<Popup class="PlayerMetadataPopup" {label} {onOutsideClick} {open} {placement}>
   {#if meta.cover}
     <div class="PlayerMetadataPopup__cover">
       <img src={meta.cover} alt="" />
@@ -132,38 +132,67 @@
 </Popup>
 
 <style>
-  @reference 'tailwindcss';
-
   .PlayerMetadataPopup__cover {
-    @apply flex h-44 w-full items-center justify-center overflow-hidden
-      rounded-md bg-white/10;
+    display: flex;
+    width: 100%;
+    height: 11rem;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.375rem;
+    background: rgb(255 255 255 / 0.1);
   }
 
   .PlayerMetadataPopup__cover img {
-    @apply h-full w-full object-cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .PlayerMetadataPopup__section {
-    @apply flex flex-col gap-2 first:pt-0 last:pb-0 text-left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
   }
 
   .PlayerMetadataPopup__section strong {
-    @apply flex flex-wrap gap-x-1 leading-tight;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.25rem;
+    line-height: 1.25;
   }
 
   .PlayerMetadataPopup__section strong span {
-    @apply opacity-70;
+    opacity: 0.7;
   }
 
   .PlayerMetadataPopup__section > .album {
-    @apply block opacity-70 leading-tight text-left;
+    display: block;
+    opacity: 0.7;
+    line-height: 1.25;
+    text-align: left;
   }
 
   .PlayerMetadataPopup__links {
-    @apply flex flex-col gap-0;
+    gap: 0;
   }
 
   .PlayerMetadataPopup__links a {
-    @apply flex items-center gap-1 rounded-sm p-1  hover:bg-white/10;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 0.125rem;
+  }
+
+  .PlayerMetadataPopup__links a:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  :global(.PlayerMetadataPopup) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 </style>

@@ -17,7 +17,7 @@
 </script>
 
 <span
-  class={`ui Loader flex flex-col gap-1 items-center ${classes}`}
+  class={`ui Loader ${classes}`}
   aria-label="Loading"
   role="status">
   <Icon name="Hourglass" {size} {color} />
@@ -27,6 +27,13 @@
 </span>
 
 <style>
+  .ui.Loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
   .ui.Loader :global(.ui.Icon) {
     display: inline-flex;
     transform-origin: center;

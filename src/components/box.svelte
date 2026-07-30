@@ -19,10 +19,13 @@
 </div>
 
 <style>
-  @reference 'tailwindcss';
-
   .Box {
-    @apply p-4 bg-[rgb(0,0,0,0.15)] rounded-lg flex flex-col gap-4;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: rgb(0 0 0 / 0.15);
   }
 
   .Box.floating {

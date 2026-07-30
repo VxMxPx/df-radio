@@ -1,87 +1,65 @@
 @import '@fontsource/handjet/latin-400.css';
 @import '@fontsource/montagu-slab/latin-300.css';
-@import 'tailwindcss';
 
-:root {
-  --color-bg: #2f2237;
-  --color-fg: #e8dfd8;
+@layer reset, base, layout, utilities;
 
-  --color-bg-faded: rgb(0 0 0 / 0.5);
-  --color-ttl-second: hsl(27, 17%, 68%);
+@layer base {
+  :root {
+    --color-bg: #2f2237;
+    --color-fg: #e8dfd8;
 
-  --color-element: #000;
-  --color-element-acc: #000;
+    --color-bg-faded: rgb(0 0 0 / 0.5);
+    --color-ttl-second: hsl(27, 17%, 68%);
+    --color-ttl: hsl(43, 81%, 60%);
 
-  --w-page: 1000px;
+    --color-element: #000;
+    --color-element-acc: #000;
 
-  --font-size-body: 20px;
-  --font-size-small: 14px;
+    --w-page: 1000px;
 
-  --font-ttl: 'Montagu Slab', serif;
-  --font-txt: 'Handjet', system-ui, sans-serif;
-}
+    --font-size-body: 20px;
+    --font-size-small: 14px;
 
-@theme {
-  --color-ttl: hsl(43, 81%, 60%);
-}
+    --font-ttl: 'Montagu Slab', serif;
+    --font-txt: 'Handjet', system-ui, sans-serif;
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-html {
-  background-color: var(--color-bg);
-  overflow-y: auto;
-  scrollbar-gutter: auto;
-}
-html,
-body {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-
-  color: var(--color-fg);
-
-  font-family: var(--font-txt);
-  font-size: var(--font-size-body);
-}
-body {
-  padding: 0 20px;
-}
-a {
-  color: var(--color-fg);
-  text-decoration: underline;
-}
-
-.columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 40px;
-  /* gap: 20px; */
-}
-.columns > div.text > p:not(:last-child) {
-  padding-bottom: 1em;
-}
-
-@media (width < 540px) {
-  .columns {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    --font-body: var(--font-size-body) var(--font-txt);
   }
-}
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
+  html {
+    background-color: var(--color-bg);
+    overflow-y: auto;
+    scrollbar-gutter: auto;
   }
-  50% {
-    transform: translate3d(0, var(--float-distance, -10px), 0);
-  }
-}
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
 
-@layer {
+    color: var(--color-fg);
+
+    font-family: var(--font-txt);
+    font-size: var(--font-size-body);
+  }
+  body {
+    padding: 0 20px;
+  }
+  a {
+    color: var(--color-fg);
+    text-decoration: underline;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, var(--float-distance, -10px), 0);
+    }
+  }
+
   h1,
   h2,
   h3,
@@ -89,7 +67,6 @@ a {
   h5,
   h6 {
     font-family: var(--font-ttl);
-    font-weight: normal;
     font-weight: 300;
   }
   h1 {
@@ -117,8 +94,24 @@ a {
   small {
     font-size: var(--font-size-small);
   }
+  textarea,
+  select,
+  input {
+    border: none;
+    font: var(--font-body);
+    padding: 0;
+    margin: 0;
+    color: var(--color-fg);
+    background: transparent;
+  }
   button {
     cursor: pointer;
+    font: var(--font-body);
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: var(--color-fg);
+    background: transparent;
   }
   code {
     background: transparent;
@@ -128,14 +121,12 @@ a {
     padding: 10px !important;
     color: inherit !important;
     font-family: inherit;
+    white-space: pre-wrap;
   }
   code,
   pre code {
     color: inherit !important;
     font-family: inherit;
-  }
-  pre {
-    white-space: pre-wrap;
   }
   hr {
     width: 100%;
@@ -157,5 +148,60 @@ a {
   ::view-transition-new(player) {
     animation-duration: 500ms;
     animation-timing-function: ease-out;
+  }
+}
+
+@layer reset {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@layer utilities {
+  .flex {
+    display: flex;
+  }
+
+  .flex-col {
+    flex-direction: column;
+  }
+
+  .flex-row {
+    flex-direction: row;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-left {
+    text-align: left;
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+}
+
+@layer layout {
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 40px;
+  }
+  .columns img {
+    max-width: 100%;
+  }
+  .columns > div.text > p:not(:last-child) {
+    padding-bottom: 1em;
+  }
+
+  @media (width < 540px) {
+    .columns {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
   }
 }

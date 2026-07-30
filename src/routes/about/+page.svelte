@@ -57,10 +57,7 @@
       </div>
       <div class="text">
         <p>
-          <img
-            class="block rounded-xs object-cover"
-            src="/images/mdccc-cc.jpg"
-            alt="" />
+          <img class="team-photo" src="/mdccc-cc-o.png" alt="" />
         </p>
       </div>
     </div>
@@ -104,3 +101,11 @@
     </div>
   </div>
 </Page>
+
+<style>
+  .team-photo {
+    display: block;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+</style>

@@ -128,7 +128,7 @@
 </script>
 
 <form
-  class={`ui Form flex flex-col gap-3 ${classes}`}
+  class={`ui Form ${classes}`}
   novalidate
   oninput={input}
   onchange={change}
@@ -139,6 +139,9 @@
 
 <style>
   .ui.Form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     position: relative;
   }
 </style>

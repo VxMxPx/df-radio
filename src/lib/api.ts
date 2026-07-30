@@ -1,3 +1,5 @@
+import { env } from '$env/dynamic/public'
+
 export type ApiRequestOptions = Omit<RequestInit, 'body' | 'method'> & {
   fetch?: typeof fetch
 }
@@ -7,12 +9,16 @@ export type ApiResponse = {
   ok?: boolean
 }
 
+const apiBaseUrl = env.PUBLIC_API_URL?.replace(/\/$/, '') || ''
+
+export const apiUrl = (path: string) => `${apiBaseUrl}${path}`
+
 export const get = async <Response>(
   path: string,
   options: ApiRequestOptions = {},
 ) => {
   const { fetch: requestFetch = fetch, headers, ...init } = options
-  const response = await requestFetch(path, {
+  const response = await requestFetch(apiUrl(path), {
     ...init,
     method: 'GET',
     headers,
@@ -39,7 +45,7 @@ export const post = async <Data, Response extends ApiResponse>(
     requestHeaders.set('content-type', 'application/json')
   }
 
-  const response = await requestFetch(path, {
+  const response = await requestFetch(apiUrl(path), {
     ...init,
     method: 'POST',
     headers: requestHeaders,
