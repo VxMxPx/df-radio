@@ -1,16 +1,23 @@
+import adapter from '@sveltejs/adapter-auto'
 import { sveltekit } from '@sveltejs/kit/vite'
-import { execSync } from 'node:child_process'
 import { defineConfig } from 'vite'
 
-const commitHash =
-  process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ||
-  process.env.NETLIFY_COMMIT_REF?.slice(0, 7) ||
-  process.env.CF_PAGES_COMMIT_SHA?.slice(0, 7) ||
-  execSync('git rev-parse --short HEAD').toString().trim()
-
 export default defineConfig({
-  plugins: [sveltekit()],
-  define: {
-    __APP_VERSION__: JSON.stringify(commitHash),
-  },
+  plugins: [
+    sveltekit({
+      alias: {
+        $root: './src',
+      },
+      compilerOptions: {
+        // Force runes mode for the project, except for libraries. Can be removed in svelte 6.
+        runes: ({ filename }) =>
+          filename.split(/[/\\]/).includes('node_modules') ? undefined : true,
+      },
+
+      // adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
+      // If your environment is not supported, or you settled on a specific environment, switch out the adapter.
+      // See https://svelte.dev/docs/kit/adapters for more information about adapters.
+      adapter: adapter(),
+    }),
+  ],
 })

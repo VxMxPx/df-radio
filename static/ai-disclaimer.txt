@@ -1,0 +1,37 @@
+DarkForest.fm AI Disclaimer
+
+Last updated: 9 August 2026
+
+AI use at DarkForest.fm is limited and responsible. AI is used as a tool to
+save time and streamline workflows. It is never used independently to create
+content or code, and it is never used to process user data.
+
+CODE
+
+DarkForest.fm is designed and coded primarily by a human. AI tools may be used
+occasionally for advice, review, or to help scaffold basic parts of the code,
+but human judgment remains responsible for the site and its operation.
+
+IMAGES AND GRAPHICS
+
+Some images used on the index page and elsewhere on the site, along with some
+other graphics, are AI-generated or AI-assisted.
+
+WRITTEN CONTENT
+
+Some written content may be drafted, edited, or corrected with the assistance
+of AI. We review such content before publishing it, but errors may still occur.
+
+EXTERNAL CONTENT
+
+To the best of our knowledge, the music featured on DarkForest.fm is not
+AI-generated. Shows and podcasts broadcast by DarkForest.fm are not
+AI-generated.
+
+YOUR DATA
+
+Visitor data, information, and private messages are not processed by AI. They
+are handled with care and only for the purpose for which they were provided.
+
+We may update this disclaimer as the site, its content, or our use of AI tools
+changes.

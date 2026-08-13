@@ -1,0 +1,282 @@
+@layer tokens, reset, base, utilities, animations;
+
+@layer tokens {
+  :root {
+    --font-title-h1: 400 48px/normal 'Bona Nova', serif;
+    --font-title-h2: 400 36px/normal 'Bona Nova', serif;
+    --font-title-h3: 400 24px/normal 'Bona Nova', serif;
+    --font-body-default: 400 16px/normal 'Geist Mono', monospace;
+    --font-body-small: 400 12px/normal 'Geist Mono', monospace;
+    --font-quote: 400 34px/32px 'Bona Nova', serif;
+    --font-post: 400 20px/normal 'Bona Nova', serif;
+
+    --font-input-default: 400 16px/normal 'Geist Mono', monospace;
+    --font-input-small: 400 12px/normal 'Geist Mono', monospace;
+
+    --content-width: 900px;
+    --player-height: 56px;
+
+    --gap-5: 5px;
+    --gap-10: 10px;
+    --gap-20: 20px;
+    --gap-40: 40px;
+
+    --cl-accent: #eac52e;
+    --cl-accent-75: color-mix(in srgb, var(--cl-accent) 75%, transparent);
+    --cl-accent-50: color-mix(in srgb, var(--cl-accent) 50%, transparent);
+    --cl-accent-25: color-mix(in srgb, var(--cl-accent) 25%, transparent);
+    --cl-accent-10: color-mix(in srgb, var(--cl-accent) 10%, transparent);
+
+    --tx-primary: #f0e3dc;
+    --tx-primary-75: color-mix(in srgb, var(--tx-primary) 75%, transparent);
+    --tx-primary-50: color-mix(in srgb, var(--tx-primary) 50%, transparent);
+    --tx-primary-25: color-mix(in srgb, var(--tx-primary) 25%, transparent);
+    --tx-primary-10: color-mix(in srgb, var(--tx-primary) 10%, transparent);
+
+    --bg-primary: #12121f;
+    --bg-primary-75: color-mix(in srgb, var(--bg-primary) 75%, transparent);
+    --bg-primary-50: color-mix(in srgb, var(--bg-primary) 50%, transparent);
+    --bg-primary-25: color-mix(in srgb, var(--bg-primary) 25%, transparent);
+  }
+}
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    border: 0;
+  }
+}
+
+@layer base {
+  :root {
+    min-height: 100%;
+    color: var(--tx-primary);
+    background-color: var(--bg-primary);
+    color-scheme: dark;
+    font: var(--font-body-default);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  strong {
+    font-weight: 700;
+    background-color: color-mix(in srgb, #ffffff 10%, transparent);
+  }
+
+  a {
+    color: var(--tx-primary);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    color: inherit;
+    font: var(--font-input-default);
+  }
+
+  h1 {
+    font: var(--font-title-h1);
+  }
+  h2 {
+    font: var(--font-title-h2);
+  }
+  h3 {
+    font: var(--font-title-h3);
+  }
+
+  hr {
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid var(--tx-primary-25);
+  }
+
+  /*
+  --- Elements ---
+  */
+  body {
+    background: url(/style/texture.png) repeat left top;
+  }
+  body.home-page-art {
+    background-image: url(/style/stars.png);
+    background-position: top center;
+    /*background-blend-mode: screen;*/
+    background-repeat: repeat;
+    background-size: 50%;
+    background-color: var(--bg-primary);
+  }
+  body.home-page-art::after {
+    content: '';
+    position: absolute;
+    background-image: url(/style/main-bottom-2.png);
+    background-position: bottom center;
+    inset: 0;
+    mix-blend-mode: screen;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .block {
+    display: block;
+  }
+
+  .blend-lighten {
+    mix-blend-mode: lighten;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-20);
+  }
+  .columns.fr-auto {
+    grid-template-columns: 1fr auto;
+  }
+  .columns.auto-fr {
+    grid-template-columns: auto 1fr;
+  }
+  .columns > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-20);
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .align-center {
+    align-items: center;
+  }
+
+  .w-100 {
+    width: 100%;
+  }
+  .w-75 {
+    width: 75%;
+  }
+  .w-50 {
+    width: 50%;
+  }
+  .w-25 {
+    width: 25%;
+  }
+  .mw-100 {
+    max-width: 100%;
+  }
+  .mw-75 {
+    max-width: 75%;
+  }
+  .mw-50 {
+    max-width: 50%;
+  }
+  .mw-25 {
+    max-width: 25%;
+  }
+
+  .gap-5 {
+    gap: var(--gap-5);
+  }
+
+  .gap-10 {
+    gap: var(--gap-10);
+  }
+
+  .gap-20 {
+    gap: var(--gap-20);
+  }
+
+  .gap-40 {
+    gap: var(--gap-40);
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .no-decoration {
+    text-decoration: none;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .opacity-75 {
+    opacity: 0.75;
+  }
+
+  .opacity-50 {
+    opacity: 0.5;
+  }
+
+  .opacity-25 {
+    opacity: 0.25;
+  }
+
+  .grow {
+    flex-grow: 1;
+  }
+  .grow-0 {
+    flex-grow: 0;
+  }
+}
+
+@layer animations {
+  .animation-pulse {
+    animation: pulse 2s linear infinite;
+  }
+  @keyframes pulse {
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -1,41 +1,42 @@
-# DarkForest.fm
+# sv
 
-A SvelteKit radio site for a strange little broadcast beyond the ordinary.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Libraries
+## Creating a project
 
-- Icons: https://iconoir.com/
+If you're seeing this, you've probably already done this step. Congrats!
 
-## Commands
-
-Run commands from the project root:
-
-| Command        | Action                       |
-| :------------- | :--------------------------- |
-| `pnpm install` | Install dependencies         |
-| `pnpm dev`     | Start the local dev server   |
-| `pnpm build`   | Build the production site    |
-| `pnpm preview` | Preview the production build |
-| `pnpm check`   | Sync SvelteKit generated types |
-
-## Commit Notation
-
-Use a tiny, plain-language prefix:
-
-```txt
-add:
-fix:
-change:
-remove:
-deps:
+```sh
+# create a new project
+npx sv create my-app
 ```
 
-Examples:
+To recreate this project with the same configuration:
 
-```txt
-add: player transition
-fix: player state reset
-change: player layout
-remove: unused topbar component
-deps: upgrade svelte
+```sh
+# recreate this project
+pnpm dlx sv@0.17.0 create --template minimal --types ts --install pnpm .
 ```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```sh
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+## Building
+
+To create a production version of your app:
+
+```sh
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

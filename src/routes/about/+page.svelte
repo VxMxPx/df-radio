@@ -1,13 +1,12 @@
-<script lang="ts">
-  import { Divider, Page } from '@app/components'
+<script>
+  import { Page } from '$lib/components'
 </script>
 
-<Page title="About" elements={{ lines: true, stars: true }}>
-  <h2>About the Project</h2>
-  <Divider />
+<Page title="About">
+  <h1>About</h1>
 
   <div class="columns">
-    <div class="text">
+    <div>
       <p>
         DarkForest.fm is an independent internet radio dedicated to quiet music,
         thoughtful curation, and slower rhythms.
@@ -18,7 +17,7 @@
         engagement, and no race to keep you listening for as long as possible.
       </p>
     </div>
-    <div class="text">
+    <div>
       <p>
         The station explores ambient, neoclassical, drone, experimental, dark
         jazz, post-rock, and other contemplative genres, creating an atmosphere
@@ -33,79 +32,59 @@
     </div>
   </div>
 
-  <Divider wavey />
+  <h2>People</h2>
 
-  <div class="team section">
-    <h3>The Team</h3>
-    <div class="columns">
-      <div class="text">
-        <p>
-          DarkForest.fm is currently a one-person project. I’m Marko, a product
-          engineer and designer from Slovenia with a long-standing interest in
-          technology, psychology, music, and thoughtful digital experiences.
-        </p>
-        <p>
-          This station brings those interests together. Every aspect of the
-          project—from the software and visual identity to licensing, artwork,
-          and music selection—is built and maintained independently.
-        </p>
-        <p>
-          Perhaps one day the project will grow into something larger. For now,
-          its small scale is one of its strengths. It allows every decision to
-          be intentional and every addition to have a reason for being.
-        </p>
-      </div>
-      <div class="text">
-        <p>
-          <img class="team-photo" src="/mdccc-cc-o.png" alt="" />
-        </p>
-      </div>
+  <div class="columns auto-fr">
+    <div>
+      <p>
+        DarkForest.fm is currently a one-person project. I’m Marko, a product
+        engineer and designer from Slovenia with a long-standing interest in
+        technology, psychology, music, and thoughtful digital experiences.
+      </p>
+      <p>
+        This station brings those interests together. Every aspect of the
+        project—from the software and visual identity to licensing, artwork, and
+        music selection—is built and maintained independently.
+      </p>
+      <p>
+        Perhaps one day the project will grow into something larger. For now,
+        its small scale is one of its strengths. It allows every decision to be
+        intentional and every addition to have a reason for being.
+      </p>
+    </div>
+    <div style:width="360px">
+      <img src="/resources/mdccc-cc.jpg" alt="" class="mw-100 blend-lighten" />
     </div>
   </div>
 
-  <Divider short />
+  <h2>Mission</h2>
 
-  <div class="mission section">
-    <h3>Mission</h3>
-    <div class="columns">
-      <div class="text">
-        <p>DarkForest.fm exists as an alternative.</p>
+  <div class="columns">
+    <div>
+      <p>DarkForest.fm exists as an alternative.</p>
+      <p>
+        Today’s internet is remarkably good at capturing attention. Platforms
+        are designed to measure, predict, optimize, and compete for every
+        possible moment. They become places we consume almost automatically.
+      </p>
+      <p>This project follows a different philosophy.</p>
+    </div>
+    <div>
+      <p>
+        It is hand-crafted, almost analogue in spirit. It values curation over
+        automation, presence over urgency, and participation over engagement
+        metrics.
+      </p>
 
-        <p>
-          Today’s internet is remarkably good at capturing attention. Platforms
-          are designed to measure, predict, optimize, and compete for every
-          possible moment. They become places we consume almost automatically.
-        </p>
-
-        <p>This project follows a different philosophy.</p>
-      </div>
-
-      <div class="text">
-        <p>
-          It is hand-crafted, almost analogue in spirit. It values curation over
-          automation, presence over urgency, and participation over engagement
-          metrics.
-        </p>
-        <p>
-          Despite its name, a dark forest is not empty. It is alive with quiet
-          rhythms, hidden paths, small movements, and the possibility of
-          discovery. It asks nothing of you except that you enter with
-          curiosity.
-        </p>
-
-        <p>
-          Take what you need, stay for as long as you wish, and return whenever
-          the path leads you here again.
-        </p>
-      </div>
+      <p>
+        Despite its name, a dark forest is not empty. It is alive with quiet
+        rhythms, hidden paths, small movements, and the possibility of
+        discovery. It asks nothing of you except that you enter with curiosity.
+      </p>
+      <p>
+        Take what you need, stay for as long as you wish, and return whenever
+        the path leads you here again.
+      </p>
     </div>
   </div>
 </Page>
-
-<style>
-  .team-photo {
-    display: block;
-    border-radius: 4px;
-    object-fit: cover;
-  }
-</style>
