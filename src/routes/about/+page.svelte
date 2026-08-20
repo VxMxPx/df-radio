@@ -8,7 +8,7 @@
   <div class="columns">
     <div>
       <p>
-        DarkForest.fm is an independent internet radio dedicated to quiet music,
+        DarkForest is an independent internet radio dedicated to quiet music,
         thoughtful curation, and slower rhythms.
       </p>
       <p>
@@ -24,7 +24,7 @@
         rather than simply broadcasting songs.
       </p>
       <p>
-        DarkForest.fm is an invitation to slow down. Whether you’re working,
+        DarkForest is an invitation to slow down. Whether you’re working,
         reading, walking through nature, driving at night, or simply taking a
         moment for yourself, the station is here to accompany rather than
         interrupt.
@@ -37,7 +37,7 @@
   <div class="columns auto-fr">
     <div>
       <p>
-        DarkForest.fm is currently a one-person project. I’m Marko, a product
+        DarkForest is currently a one-person project. I’m Marko, a product
         engineer and designer from Slovenia with a long-standing interest in
         technology, psychology, music, and thoughtful digital experiences.
       </p>
@@ -52,7 +52,7 @@
         intentional and every addition to have a reason for being.
       </p>
     </div>
-    <div style:width="360px">
+    <div class="sm-w-100" style:width="360px">
       <img src="/resources/mdccc-cc.jpg" alt="" class="mw-100 blend-lighten" />
     </div>
   </div>
@@ -61,7 +61,7 @@
 
   <div class="columns">
     <div>
-      <p>DarkForest.fm exists as an alternative.</p>
+      <p>DarkForest exists as an alternative.</p>
       <p>
         Today’s internet is remarkably good at capturing attention. Platforms
         are designed to measure, predict, optimize, and compete for every

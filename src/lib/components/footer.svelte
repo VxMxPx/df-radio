@@ -1,5 +1,9 @@
+<script>
+  import { APP_NAME } from '$root/constants'
+</script>
+
 <footer>
-  <span> © 2026 DarkForest </span>
+  <span> &copy; 2026 {APP_NAME} </span>
   <span> | </span>
   <a href="/privacy.txt"> Privacy </a>
   <span> | </span>
@@ -7,7 +11,7 @@
   <span> | </span>
   <a href="/ai-disclaimer.txt"> AI Disclaimer </a>
   <span> | </span>
-  <a href="/contact"> Let’s talk → </a>
+  <a href="/contact">Request Removal →</a>
 </footer>
 
 <style>

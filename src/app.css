@@ -1,4 +1,4 @@
-@layer tokens, reset, base, utilities, animations;
+@layer tokens, reset, base, utilities, mobile, animations;
 
 @layer tokens {
   :root {
@@ -123,14 +123,13 @@
   body {
     background: url(/style/texture.png) repeat left top;
   }
-  body.home-page-art {
+  /*body.home-page-art {
     background-image: url(/style/stars.png);
     background-position: top center;
-    /*background-blend-mode: screen;*/
     background-repeat: repeat;
     background-size: 50%;
     background-color: var(--bg-primary);
-  }
+  }*/
   body.home-page-art::after {
     content: '';
     position: absolute;
@@ -258,6 +257,17 @@
   }
   .grow-0 {
     flex-grow: 0;
+  }
+}
+
+@layer mobile {
+  @media (max-width: 700px) {
+    .columns {
+      grid-template-columns: 1fr !important;
+    }
+    .sm-w-100 {
+      width: 100% !important;
+    }
   }
 }
 

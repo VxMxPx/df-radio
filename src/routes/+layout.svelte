@@ -3,31 +3,24 @@
   import '@fontsource/bona-nova'
   import '@fontsource/geist-mono'
   import favicon from '$lib/assets/favicon.svg'
-  import { Player } from '$lib/components'
-  import { player_state } from '$lib/components/player/player-state.svelte'
-  import { page } from '$app/state'
+  import { APP_NAME } from '$root/constants'
 
   let { children } = $props()
-  const playerVisible = $derived(
-    player_state.is_playing || page.url.pathname !== '/',
-  )
 </script>
 
 <svelte:head>
   <link rel="icon" href={favicon} />
-  <title>DarkForest.fm</title>
+  <title>{APP_NAME}</title>
 </svelte:head>
 
-<div class:player-visible={playerVisible} class="app-shell">
-  <Player visible={playerVisible} />
+<div class="app-shell">
   {@render children()}
 </div>
 
 <style>
   :global {
     body {
-      padding-top: var(--gap-40);
-      padding-bottom: var(--gap-40);
+      padding: var(--gap-40);
     }
   }
 
@@ -36,9 +29,5 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-  }
-
-  .app-shell.player-visible {
-    padding-top: var(--player-height);
   }
 </style>

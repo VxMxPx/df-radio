@@ -3,8 +3,6 @@
   <span>|</span>
   <a href="/explore">Explore</a>
   <span>|</span>
-  <a href="/program">Program</a>
-  <span>|</span>
   <a href="/contact">Contact</a>
 </nav>
 

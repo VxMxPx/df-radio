@@ -5,7 +5,14 @@
     toggle_playing,
   } from './player-state.svelte'
   import { Button, Icon, Loader } from '../ui'
-  let { visible = false }: { visible?: boolean } = $props()
+  import type { Snippet } from 'svelte'
+
+  type Props = {
+    visible?: boolean
+    children?: Snippet
+  }
+
+  let { visible = false, children }: Props = $props()
 </script>
 
 {#if visible}
@@ -54,6 +61,9 @@
           {player_state.is_playing ? 'Stop' : 'Play'}
         {/if}
       </Button>
+
+      {@render children?.()}
+
       <Button
         class={player_state.is_mutted ? 'animation-pulse' : ''}
         size="small"
@@ -95,7 +105,8 @@
     display: flex;
     gap: var(--gap-10);
     align-items: center;
-    width: var(--content-width);
+    width: 100%;
+    max-width: var(--content-width);
     /*border: 1px dotted var(--tx-primary-50);*/
     /*border-top: none;*/
     background: var(--bg-primary);
@@ -110,10 +121,14 @@
   }
 
   .metadata {
+    gap: var(--gap-10);
+    flex-direction: column;
+    display: flex;
     flex-grow: 1;
     font: var(--font-body-small);
   }
   .metadata .artist {
+    flex-wrap: wrap;
     display: flex;
     gap: 4px;
   }

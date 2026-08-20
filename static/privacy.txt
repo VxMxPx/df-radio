@@ -1,43 +1,43 @@
-DarkForest.fm Privacy Notice
+DarkForest Privacy Notice
 
 Last updated: 8 August 2026
 
-DarkForest.fm is designed to collect as little personal data as possible.
+DarkForest is designed to collect as little personal data as possible.
 
 WHAT HAPPENS WHEN YOU USE THE SITE
 
 When you visit the site or listen to the radio stream, your browser connects
-to the DarkForest.fm web server and to our locally hosted AzuraCast service.
+to the DarkForest web server and to our locally hosted AzuraCast service.
 As part of making those connections, technical information such as your IP
 address, browser information, requested URL, and the date and time of the
 request may be processed temporarily. This is necessary to deliver the site
 and audio stream and to keep the service secure and reliable.
 
-DarkForest.fm does not retain visitor or listener data. We do not create user
+DarkForest does not retain visitor or listener data. We do not create user
 profiles, track people across websites, or use visitor data for advertising.
 
 The legal basis for this limited technical processing is our legitimate
-interest in operating, securing, and maintaining DarkForest.fm and in
+interest in operating, securing, and maintaining DarkForest and in
 delivering the site or stream that you request.
 
 COOKIES AND ANALYTICS
 
-DarkForest.fm does not use analytics, advertising trackers, or cookies.
+DarkForest does not use analytics, advertising trackers, or cookies.
 
 AZURACAST
 
 The radio stream is provided through our own locally hosted AzuraCast
 service. It is not an external analytics or advertising service. A connection
 to AzuraCast is made when you start the stream so that the audio and current
-track information can be delivered to you. DarkForest.fm does not retain
+track information can be delivered to you. DarkForest does not retain
 listener data from that connection.
 
 DONATIONS AND STRIPE
 
 If you choose to make a donation, you may be redirected to Stripe, which is a
 separate service operated under Stripe's own terms and privacy policy.
-DarkForest.fm does not send information to Stripe merely because you visit or
-listen to DarkForest.fm. Stripe may collect and process the information needed
+DarkForest does not send information to Stripe merely because you visit or
+listen to DarkForest. Stripe may collect and process the information needed
 to complete a donation after you choose to use its service. Please review
 Stripe's privacy policy before donating:
 
@@ -45,7 +45,7 @@ https://stripe.com/privacy
 
 DATA SHARING
 
-DarkForest.fm does not sell personal data. We do not share visitor or listener
+DarkForest does not sell personal data. We do not share visitor or listener
 data with external services, except when you independently choose to use a
 separate service such as Stripe for a donation, or where disclosure is
 required by law.
@@ -55,12 +55,12 @@ YOUR RIGHTS
 Depending on where you live, you may have rights concerning your personal
 data, including rights of access, correction, deletion, restriction, or
 objection, and the right to complain to your local data protection authority.
-Because DarkForest.fm does not retain visitor or listener data, we will
+Because DarkForest does not retain visitor or listener data, we will
 normally have no stored data that can be linked to you.
 
 CONTACT
 
 For privacy questions or requests, use the contact information published on
-DarkForest.fm.
+DarkForest.
 
 We may update this notice if the service or its data practices change.

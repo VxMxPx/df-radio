@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: space-between;
   }
-  header :global(h3) {
+  /*header :global(h3) {
     color: var(--tx-primary-75);
-  }
+  }*/
 </style>

@@ -2,12 +2,12 @@
   import { onMount } from 'svelte'
   import { artists_api, type Artist } from '$lib/api'
 
-  let artists = $state<Artist[] | null>(null)
-  let error = $state<string | null>(null)
+  let artists = $state<Artist[]>([])
+  let error = $state<string>('')
 
   onMount(async () => {
     try {
-      artists = await artists_api.get_artists()
+      artists = (await artists_api.get_artists()) ?? []
     } catch (request_error) {
       error =
         request_error instanceof Error
@@ -17,16 +17,17 @@
   })
 </script>
 
+<p>
+  Meet the artists shaping the sounds of Dark Forest. From distant corners of
+  the world to local underground scenes, these are the musicians whose work
+  finds its way into our broadcasts.
+</p>
+
 {#if error}
   <div>{error}</div>
-{:else if artists === null}
+{:else if !artists.length}
   <div>Loading artists...</div>
 {:else}
-  <p>
-    Meet the artists shaping the sounds of Dark Forest FM. From distant corners
-    of the world to local underground scenes, these are the musicians whose work
-    finds its way into our broadcasts.
-  </p>
   <div class="artists-list">
     {#each artists as artist}
       <div class="artist">

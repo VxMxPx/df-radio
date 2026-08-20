@@ -15,7 +15,7 @@
 <details class={`ui accordion_ui ${classes}`} {open}>
   <summary class="summary">
     <span class="icon" aria-hidden="true">
-      <Icon name="ArrowRight" size={12} />
+      <Icon color="var(--cl-accent)" name="ArrowRight" size={12} />
     </span>
     <span>{title}</span>
   </summary>

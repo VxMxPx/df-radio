@@ -1,8 +1,11 @@
 <script>
+  import { APP_NAME } from '$root/constants'
   import { Page } from '$root/lib/components'
   import { Accordion, Button, Icon } from '$root/lib/components/ui'
   import Divider from '$root/lib/components/ui/divider.svelte'
   import { default as faq } from './faq.json'
+
+  const email = `hi@${APP_NAME.toLowerCase()}`
 </script>
 
 <Page title="Contact">
@@ -10,9 +13,7 @@
 
   <div class="initial columns gap-40">
     <div>
-      <p>
-        DarkForest.fm is still young, and many of its paths remain unexplored.
-      </p>
+      <p>DarkForest is still young, and many of its paths remain unexplored.</p>
       <p>
         If you have a thought, a story, a suggestion, a question, or a signal
         worth sharing, we’d love to hear from you. Every message helps shape
@@ -20,9 +21,9 @@
       </p>
       <p>And who knows what might emerge from a simple knock at the gate.</p>
       <p>
-        <a class="social" href="mailto:hi@darkforest.fm">
+        <a class="social" href="mailto:{email}">
           <Icon name="Mail" />
-          <small>hi@darkforest.fm</small>
+          <small>{email}</small>
         </a>
       </p>
     </div>
@@ -41,9 +42,9 @@
           <Icon name="SocialInstagram" />
           <small>@darkforest.fm</small>
         </a>
-        <a href="mailto:hi@darkforest.fm">
+        <a href="mailto:{email}">
           <Icon name="Mail" />
-          <small>hi@darkforest.fm</small>
+          <small>{email}</small>
         </a>
       </div>
     </div>
